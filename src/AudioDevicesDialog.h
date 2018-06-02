@@ -13,31 +13,31 @@
 
 class AudioDevicesDialog: public wxDialog
 {
-	public:
+    public:
 
-		AudioDevicesDialog(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-		virtual ~AudioDevicesDialog();
-		
-		void StartCalibration();
-		void StopCalibration();
+        AudioDevicesDialog(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+        virtual ~AudioDevicesDialog();
 
-		//(*Declarations(AudioDevicesDialog)
-		AudioDevicesPanel* mADPanel;
-		//*)
+        void StartCalibration();
+        void StopCalibration();
 
-	protected:
+        //(*Declarations(AudioDevicesDialog)
+        AudioDevicesPanel* mADPanel;
+        //*)
 
-		//(*Identifiers(AudioDevicesDialog)
-		static const long ID_ADEVS_PANEL;
-		//*)
+    protected:
 
-	private:
+        //(*Identifiers(AudioDevicesDialog)
+        static const long ID_ADEVS_PANEL;
+        //*)
 
-		//(*Handlers(AudioDevicesDialog)
-		void OnClose(wxCloseEvent& event);
-		//*)
+    private:
 
-		DECLARE_EVENT_TABLE()
+        //(*Handlers(AudioDevicesDialog)
+        void OnClose(wxCloseEvent& event);
+        //*)
+
+        DECLARE_EVENT_TABLE()
 };
 
 #endif

@@ -12,21 +12,21 @@ KFFTWrapper::KFFTWrapper(size_t fftLength, WindowType wType)
     //ctor
     mFFTWindow = new Window<float>(mWType, mFFTLength);
 
-	//calculate chosen window average level:
-	float* dWin = new float[mFFTLength];
-	for (size_t i = 0; i < mFFTLength; i++)
-	{
-		dWin[i] = 1;
-	}
-	mFFTWindow->cut(dWin);
-	
-	mWindowAvgLevel = 0; 
-	for (size_t i = 0; i < mFFTLength; i++)
-	{
-		mWindowAvgLevel += dWin[i];
-	}
-	
-	mWindowAvgLevel /= mFFTLength;
+    //calculate chosen window average level:
+    float* dWin = new float[mFFTLength];
+    for (size_t i = 0; i < mFFTLength; i++)
+    {
+        dWin[i] = 1;
+    }
+    mFFTWindow->cut(dWin);
+
+    mWindowAvgLevel = 0;
+    for (size_t i = 0; i < mFFTLength; i++)
+    {
+        mWindowAvgLevel += dWin[i];
+    }
+
+    mWindowAvgLevel /= mFFTLength;
 
     mWindowedBuffer = new float[ mFFTLength ];
 
@@ -103,18 +103,18 @@ KFFTWrapper::getFDData( kiss_fft_scalar* sclTData, float* FFTMag, float* FFTPhas
     float absVal, re, im, lgAbsVal;
     for( size_t i = 0; i < (1+mFFTLength/2); i++ )
     {
-		float vRand = 1e-32*((float)rand() + 1);
+        float vRand = 1e-32*((float)rand() + 1);
         re = mFDSigIn[i].r / (float)(mFFTLength/2);
         im = mFDSigIn[i].i / (float)(mFFTLength/2);
-		//absVal = (sqrtf( re*re + im*im )/(float)(mFFTLength/2)) + vRand;
-		absVal = vRand + sqrt( re*re + im*im )/ mWindowAvgLevel;
+        //absVal = (sqrtf( re*re + im*im )/(float)(mFFTLength/2)) + vRand;
+        absVal = vRand + sqrt( re*re + im*im )/ mWindowAvgLevel;
 
-		lgAbsVal = 20 * log10(absVal);
+        lgAbsVal = 20 * log10(absVal);
 
-		if(doLog)
-			FFTMag[ i ] = lgAbsVal;
-		else
-			FFTMag[i] = absVal;
+        if(doLog)
+            FFTMag[ i ] = lgAbsVal;
+        else
+            FFTMag[i] = absVal;
     }
 
    return res;

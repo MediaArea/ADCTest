@@ -11,13 +11,13 @@
 
 enum IOCalibrationParams
 {
-	kOutputGain = 0,
-	kFFTRefChannel,
-	kFFTLength,
-	kFFTAverage,
-	kFFTAverageReset,
-	kFFTWindow,
-	kNumIOCalibrationParams
+    kOutputGain = 0,
+    kFFTRefChannel,
+    kFFTLength,
+    kFFTAverage,
+    kFFTAverageReset,
+    kFFTWindow,
+    kNumIOCalibrationParams
 };
 
 #endif

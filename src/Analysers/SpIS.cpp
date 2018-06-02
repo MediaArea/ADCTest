@@ -14,270 +14,270 @@ SpIS::~SpIS()
 int
 SpIS::analyseSignal(wxXmlNode* testDescriptionNode)
 {
-	int result = TestErrorUnknown;
+    int result = TestErrorUnknown;
 
-	setParameters(testDescriptionNode);
+    setParameters(testDescriptionNode);
 
-	//recorded response file
-	mResponseFile = openResponseFile();
+    //recorded response file
+    mResponseFile = openResponseFile();
 
-	if (mResponseFile)
-	{
-		//find segments in file
-		std::vector<size_t> onsets = getOnsets(mResponseFile, mSelectedChannel, false);
+    if (mResponseFile)
+    {
+        //find segments in file
+        std::vector<size_t> onsets = getOnsets(mResponseFile, mSelectedChannel, false);
 
-		if (onsets.size() > 0)
-		{
-			calculateSpIS(mResponseFile, onsets, mSelectedChannel);
+        if (onsets.size() > 0)
+        {
+            calculateSpIS(mResponseFile, onsets, mSelectedChannel);
 
-			bool testOutcome = buildReport();
+            bool testOutcome = buildReport();
 
-			if (testOutcome)
-				result = TestPass;
-			else
-				result = TestFail;
-		}
-		else
-		{
-			result = TestErrorRespSignal;
-		}
+            if (testOutcome)
+                result = TestPass;
+            else
+                result = TestFail;
+        }
+        else
+        {
+            result = TestErrorRespSignal;
+        }
 
-		closeResponseFile();
-	}
-	else
-	{
-		result = TestErrorRespFile;
-	}
+        closeResponseFile();
+    }
+    else
+    {
+        result = TestErrorRespFile;
+    }
 
-	return result;
+    return result;
 }
 
 float
 SpIS::calculateSpIS(SNDFILE* afile, std::vector<size_t> &onsets, int channelIndex)
 {
-	mFFTLength = (size_t)getTestParameterValue(wxT("fftlength"), mParamsNode);
-	mFFTAverages = (size_t)getTestParameterValue(wxT("fftnoavg"), mParamsNode);
-	mNotchBandwidth = getTestParameterValue(wxT("notchbw"), mParamsNode);
-	
-	//////////////////////////////////
-	//calculate frequency response
-	mFrequencyResponse.clear();
+    mFFTLength = (size_t)getTestParameterValue(wxT("fftlength"), mParamsNode);
+    mFFTAverages = (size_t)getTestParameterValue(wxT("fftnoavg"), mParamsNode);
+    mNotchBandwidth = getTestParameterValue(wxT("notchbw"), mParamsNode);
 
-	mFFTBins = 1 + mFFTLength / 2;
+    //////////////////////////////////
+    //calculate frequency response
+    mFrequencyResponse.clear();
 
-	KFFTWrapper* mRTA = new KFFTWrapper(mFFTLength, Kaiser7Window);
+    mFFTBins = 1 + mFFTLength / 2;
 
-	size_t noSegments = onsets.size();
+    KFFTWrapper* mRTA = new KFFTWrapper(mFFTLength, Kaiser7Window);
 
-	//for this measurement we are only interested in a single segment
-	size_t on = onsets[0];
-	sf_count_t seeked = sf_seek(afile, on + mTransientSamples, SEEK_SET);
+    size_t noSegments = onsets.size();
 
-	float* fileBuffer = new float[mFFTLength*mNoChannels];
-	float* channelBuffer = new float[mFFTLength];
-	float* fftMag = new float[mFFTLength];
-	float* dummyPhase = 0;
+    //for this measurement we are only interested in a single segment
+    size_t on = onsets[0];
+    sf_count_t seeked = sf_seek(afile, on + mTransientSamples, SEEK_SET);
 
-	//accumulation buffer for linear averaging
-	double* fftMagAcc = new double[mFFTLength];
-	memset(fftMagAcc, 0, sizeof(double)*mFFTLength);
+    float* fileBuffer = new float[mFFTLength*mNoChannels];
+    float* channelBuffer = new float[mFFTLength];
+    float* fftMag = new float[mFFTLength];
+    float* dummyPhase = 0;
 
-	size_t averagesCounter = 0;
-	while (averagesCounter < mFFTAverages)
-	{
-		sf_count_t read = sf_readf_float(afile, fileBuffer, mFFTLength);
+    //accumulation buffer for linear averaging
+    double* fftMagAcc = new double[mFFTLength];
+    memset(fftMagAcc, 0, sizeof(double)*mFFTLength);
 
-		//get selected channel
-		for (size_t j = 0; j < mFFTLength; j++)
-		{
-			float chVal = fileBuffer[mNoChannels * j + channelIndex];
-			channelBuffer[j] = chVal;
-		}
+    size_t averagesCounter = 0;
+    while (averagesCounter < mFFTAverages)
+    {
+        sf_count_t read = sf_readf_float(afile, fileBuffer, mFFTLength);
 
-		mRTA->getFDData(channelBuffer, fftMag, dummyPhase, true, false);
+        //get selected channel
+        for (size_t j = 0; j < mFFTLength; j++)
+        {
+            float chVal = fileBuffer[mNoChannels * j + channelIndex];
+            channelBuffer[j] = chVal;
+        }
 
-		//accumulate for linear averaging
-		for (size_t i = 0; i < mFFTBins; i++)
-		{
-			fftMagAcc[i] += (double)fftMag[i];
-		}
+        mRTA->getFDData(channelBuffer, fftMag, dummyPhase, true, false);
 
-		averagesCounter++;
-	}
+        //accumulate for linear averaging
+        for (size_t i = 0; i < mFFTBins; i++)
+        {
+            fftMagAcc[i] += (double)fftMag[i];
+        }
 
-	for (size_t i = 0; i < mFFTBins; i++)
-	{
-		float val = (float)(fftMagAcc[i] / averagesCounter);
-		float freq = mSampleRate * ((float)i / (float)mFFTLength);
-		FreqPoint pn;
-		pn.peakValueLin = val;
-		pn.peakValueLog = 20 * log10(val);
-		pn.frequency = freq;
-		pn.binNumber = i;
-		mFrequencyResponse.push_back(pn);
-	}
+        averagesCounter++;
+    }
 
-	delete[] fileBuffer;
-	delete[] channelBuffer;
-	delete[] fftMag;
-	delete[] fftMagAcc;
-	delete mRTA;
+    for (size_t i = 0; i < mFFTBins; i++)
+    {
+        float val = (float)(fftMagAcc[i] / averagesCounter);
+        float freq = mSampleRate * ((float)i / (float)mFFTLength);
+        FreqPoint pn;
+        pn.peakValueLin = val;
+        pn.peakValueLog = 20 * log10(val);
+        pn.frequency = freq;
+        pn.binNumber = i;
+        mFrequencyResponse.push_back(pn);
+    }
+
+    delete[] fileBuffer;
+    delete[] channelBuffer;
+    delete[] fftMag;
+    delete[] fftMagAcc;
+    delete mRTA;
 
 
-	///////////////////////////////////////////////////
-	//calculate SpIS level
-	///////////////////////////////////////////////////
+    ///////////////////////////////////////////////////
+    //calculate SpIS level
+    ///////////////////////////////////////////////////
 
-	//frequency width of each FFT bin - in Hz
-	float binResolution = (float)mSampleRate / (float)mFFTLength;
+    //frequency width of each FFT bin - in Hz
+    float binResolution = (float)mSampleRate / (float)mFFTLength;
 
-	//find stimulus frequency
-	double lowestFrequency = getTestParameterValue(wxT("lowerlimit"), mParamsNode);
-	double highestFrequency = getTestParameterValue(wxT("higherlimit"), mParamsNode);
-	FreqPoint stimPnt = findPeakInRange(lowestFrequency, highestFrequency, mFrequencyResponse);
+    //find stimulus frequency
+    double lowestFrequency = getTestParameterValue(wxT("lowerlimit"), mParamsNode);
+    double highestFrequency = getTestParameterValue(wxT("higherlimit"), mParamsNode);
+    FreqPoint stimPnt = findPeakInRange(lowestFrequency, highestFrequency, mFrequencyResponse);
 
-	//suppress harmonic components and boundaries;
-	size_t nH = 1;
-	double sF = stimPnt.frequency;
-	double hF = 0;
+    //suppress harmonic components and boundaries;
+    size_t nH = 1;
+    double sF = stimPnt.frequency;
+    double hF = 0;
 
-	std::vector<FreqPoint> supFrequencyResponse;
-	bool hfFound = false;
-	for (size_t fIdx = 0; fIdx < mFrequencyResponse.size(); fIdx++)
-	{
-		hF = nH*sF;
-		FreqPoint pn = mFrequencyResponse[fIdx];
-		double lw = (hF - mNotchBandwidth/2);// 10 * binResolution);
-		double up = (hF + mNotchBandwidth/2);// 11 * binResolution);
+    std::vector<FreqPoint> supFrequencyResponse;
+    bool hfFound = false;
+    for (size_t fIdx = 0; fIdx < mFrequencyResponse.size(); fIdx++)
+    {
+        hF = nH*sF;
+        FreqPoint pn = mFrequencyResponse[fIdx];
+        double lw = (hF - mNotchBandwidth/2);// 10 * binResolution);
+        double up = (hF + mNotchBandwidth/2);// 11 * binResolution);
 
-		if ((pn.frequency >= lw) && (pn.frequency < up))
-		{
-			pn.peakValueLin = 1e-9;
-			pn.peakValueLog = 20 * log10(pn.peakValueLin);
-			hfFound = true;
-		}
-		
-		if ( (pn.frequency >= up) && hfFound ){
-			nH++;
-			hfFound = false;
-		}
+        if ((pn.frequency >= lw) && (pn.frequency < up))
+        {
+            pn.peakValueLin = 1e-9;
+            pn.peakValueLog = 20 * log10(pn.peakValueLin);
+            hfFound = true;
+        }
 
-		supFrequencyResponse.push_back(pn);
-	}
+        if ( (pn.frequency >= up) && hfFound ){
+            nH++;
+            hfFound = false;
+        }
 
-	mFrequencyResponse.clear();
-	for (size_t fIdx = 0; fIdx < supFrequencyResponse.size(); fIdx++)
-	{
-		FreqPoint pn = supFrequencyResponse[fIdx];
-		mFrequencyResponse.push_back(pn);
-	}
+        supFrequencyResponse.push_back(pn);
+    }
 
-	//now find highest peak in suppressed frequency response
-	FreqPoint inhPnt = findPeakInRange(lowestFrequency, highestFrequency, mFrequencyResponse);
+    mFrequencyResponse.clear();
+    for (size_t fIdx = 0; fIdx < supFrequencyResponse.size(); fIdx++)
+    {
+        FreqPoint pn = supFrequencyResponse[fIdx];
+        mFrequencyResponse.push_back(pn);
+    }
 
-	mMaxSpISFrequency = inhPnt.frequency;
-	mMaxSpISLevel_Lin = inhPnt.peakValueLin;
-	mMaxSpISLevel_Log = inhPnt.peakValueLog;
+    //now find highest peak in suppressed frequency response
+    FreqPoint inhPnt = findPeakInRange(lowestFrequency, highestFrequency, mFrequencyResponse);
 
-	return 0;// ;
+    mMaxSpISFrequency = inhPnt.frequency;
+    mMaxSpISLevel_Lin = inhPnt.peakValueLin;
+    mMaxSpISLevel_Log = inhPnt.peakValueLog;
+
+    return 0;// ;
 }
 
 bool
 SpIS::buildReport()
 {
-	wxString channelInfo;
-	channelInfo.Printf(wxT("%d"), mSelectedChannel);
+    wxString channelInfo;
+    channelInfo.Printf(wxT("%d"), mSelectedChannel);
 
-	wxXmlNode* resultsNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("FADGIResults"));
-	resultsNode->AddAttribute(wxT("title"), mTestTitle);
-	resultsNode->AddAttribute(wxT("channelindex"), channelInfo);
+    wxXmlNode* resultsNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("FADGIResults"));
+    resultsNode->AddAttribute(wxT("title"), mTestTitle);
+    resultsNode->AddAttribute(wxT("channelindex"), channelInfo);
 
-	wxXmlNode* dataNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("dataset"));
-	dataNode->AddAttribute(wxT("id"), wxT("0"));
+    wxXmlNode* dataNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("dataset"));
+    dataNode->AddAttribute(wxT("id"), wxT("0"));
 
-	//create node with test-specific metrics:
-	wxXmlNode* metricsNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("testmetrics"));
+    //create node with test-specific metrics:
+    wxXmlNode* metricsNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("testmetrics"));
 
-	wxString paramValueStr;
+    wxString paramValueStr;
 
-	//SpIS frequency 
-	wxXmlNode* SpISFreqNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("parameter"));
-	SpISFreqNode->AddAttribute(wxT("name"), wxT("spis_frequency"));
-	paramValueStr.Printf(wxT("%g"), mMaxSpISFrequency);
-	SpISFreqNode->AddAttribute(wxT("value"), paramValueStr);
-	SpISFreqNode->AddAttribute(wxT("units"), wxT(""));
-	metricsNode->AddChild(SpISFreqNode);
+    //SpIS frequency
+    wxXmlNode* SpISFreqNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("parameter"));
+    SpISFreqNode->AddAttribute(wxT("name"), wxT("spis_frequency"));
+    paramValueStr.Printf(wxT("%g"), mMaxSpISFrequency);
+    SpISFreqNode->AddAttribute(wxT("value"), paramValueStr);
+    SpISFreqNode->AddAttribute(wxT("units"), wxT(""));
+    metricsNode->AddChild(SpISFreqNode);
 
-	//SpIS linear value
-	wxXmlNode* SpISPcNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("parameter"));
-	SpISPcNode->AddAttribute(wxT("name"), wxT("spis_linear"));
-	paramValueStr.Printf(wxT("%g"), mMaxSpISLevel_Lin);
-	SpISPcNode->AddAttribute(wxT("value"), paramValueStr);
-	SpISPcNode->AddAttribute(wxT("units"), wxT(""));
-	metricsNode->AddChild(SpISPcNode);
+    //SpIS linear value
+    wxXmlNode* SpISPcNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("parameter"));
+    SpISPcNode->AddAttribute(wxT("name"), wxT("spis_linear"));
+    paramValueStr.Printf(wxT("%g"), mMaxSpISLevel_Lin);
+    SpISPcNode->AddAttribute(wxT("value"), paramValueStr);
+    SpISPcNode->AddAttribute(wxT("units"), wxT(""));
+    metricsNode->AddChild(SpISPcNode);
 
-	//SpIS log value
-	wxXmlNode* SpISLoglNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("parameter"));
-	SpISLoglNode->AddAttribute(wxT("name"), wxT("spis_logarithmic"));
-	paramValueStr.Printf(wxT("%g"), mMaxSpISLevel_Log);
-	SpISLoglNode->AddAttribute(wxT("value"), paramValueStr);
-	SpISLoglNode->AddAttribute(wxT("units"), wxT("dB"));
-	metricsNode->AddChild(SpISLoglNode);
+    //SpIS log value
+    wxXmlNode* SpISLoglNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("parameter"));
+    SpISLoglNode->AddAttribute(wxT("name"), wxT("spis_logarithmic"));
+    paramValueStr.Printf(wxT("%g"), mMaxSpISLevel_Log);
+    SpISLoglNode->AddAttribute(wxT("value"), paramValueStr);
+    SpISLoglNode->AddAttribute(wxT("units"), wxT("dB"));
+    metricsNode->AddChild(SpISLoglNode);
 
-	//Add metrics node to data node;
-	dataNode->AddChild(metricsNode);
+    //Add metrics node to data node;
+    dataNode->AddChild(metricsNode);
 
-	//if dumping frequency response is enabled:
-	bool writeFResp = (bool)getTestParameterValue(wxT("outputfreqresponse"), mParamsNode);
-	if (writeFResp)
-	{
-		wxXmlNode* FreqRespNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("freqresponse"));
-		//add frequency points
-		size_t nPoints = mFrequencyResponse.size();
-		for (size_t pIdx = 0; pIdx < nPoints; pIdx++)
-		{
-			wxXmlNode* pointNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("point"));
-			wxString value;
-			FreqPoint pn = mFrequencyResponse[pIdx];
+    //if dumping frequency response is enabled:
+    bool writeFResp = (bool)getTestParameterValue(wxT("outputfreqresponse"), mParamsNode);
+    if (writeFResp)
+    {
+        wxXmlNode* FreqRespNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("freqresponse"));
+        //add frequency points
+        size_t nPoints = mFrequencyResponse.size();
+        for (size_t pIdx = 0; pIdx < nPoints; pIdx++)
+        {
+            wxXmlNode* pointNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("point"));
+            wxString value;
+            FreqPoint pn = mFrequencyResponse[pIdx];
 
-			value.Printf(wxT("%g"), pn.frequency);
-			pointNode->AddAttribute(wxT("frequency"), value);
-			value.Printf(wxT("%g"), pn.peakValueLog);
-			pointNode->AddAttribute(wxT("level"), value);
+            value.Printf(wxT("%g"), pn.frequency);
+            pointNode->AddAttribute(wxT("frequency"), value);
+            value.Printf(wxT("%g"), pn.peakValueLog);
+            pointNode->AddAttribute(wxT("level"), value);
 
-			FreqRespNode->AddChild(pointNode);
-		}
-		dataNode->AddChild(FreqRespNode);
-	}
-	resultsNode->AddChild(dataNode);
+            FreqRespNode->AddChild(pointNode);
+        }
+        dataNode->AddChild(FreqRespNode);
+    }
+    resultsNode->AddChild(dataNode);
 
-	///////////////////////////////////////////////////////////////////////////////
-	//write pass or fail outcome for test based on perfomance specifications
+    ///////////////////////////////////////////////////////////////////////////////
+    //write pass or fail outcome for test based on perfomance specifications
 
-	//add published specs for reference
-	wxXmlNode* specNode = new wxXmlNode(*mSpecsNode);// wxXML_ELEMENT_NODE, wxT("performancespecs"));
-	resultsNode->AddChild(specNode);
+    //add published specs for reference
+    wxXmlNode* specNode = new wxXmlNode(*mSpecsNode);// wxXML_ELEMENT_NODE, wxT("performancespecs"));
+    resultsNode->AddChild(specNode);
 
-	//check against target performance
-	bool testResultsOK = checkTestSpecs(resultsNode);
-	wxXmlNode* outcomeNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("testoutcome"));
-	wxString passOrFail;
+    //check against target performance
+    bool testResultsOK = checkTestSpecs(resultsNode);
+    wxXmlNode* outcomeNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("testoutcome"));
+    wxString passOrFail;
 
-	if (testResultsOK)
-		passOrFail = wxT("pass");
-	else
-		passOrFail = wxT("fail");
+    if (testResultsOK)
+        passOrFail = wxT("pass");
+    else
+        passOrFail = wxT("fail");
 
-	outcomeNode->AddAttribute(wxT("value"), passOrFail);
-	resultsNode->AddChild(outcomeNode);
+    outcomeNode->AddAttribute(wxT("value"), passOrFail);
+    resultsNode->AddChild(outcomeNode);
 
-	////////////////////////////////////////////////////////////////////////////////
-	//serialise report to file
-	writeResultsToFile(resultsNode);
+    ////////////////////////////////////////////////////////////////////////////////
+    //serialise report to file
+    writeResultsToFile(resultsNode);
 
-	delete resultsNode;
+    delete resultsNode;
 
-	return testResultsOK;
+    return testResultsOK;
 
-	return true;
+    return true;
 }

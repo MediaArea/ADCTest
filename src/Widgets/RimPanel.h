@@ -27,7 +27,7 @@ class RimPanel : public wxPanel
 
         void paintEvent(wxPaintEvent & evt);
         void OnSize(wxSizeEvent &event);
-		void EnableGradient(bool enabled);
+        void EnableGradient(bool enabled);
 
 
     DECLARE_EVENT_TABLE();
@@ -38,8 +38,8 @@ class RimPanel : public wxPanel
         wxColour mBGColourTop;
         wxColour mBGColourBottom;
         wxColour mFGColour;
-		
-		bool mEnabledGradient;
+
+        bool mEnabledGradient;
 
     private:
 };

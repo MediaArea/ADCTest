@@ -20,58 +20,58 @@ wxFileConfig *gPrefs = NULL;
 
 void InitPreferences()
 {
-	wxString vendorName = wxT("AVPreserve");
-	wxString appName = wxT("ADCTester");
+    wxString vendorName = wxT("AVPreserve");
+    wxString appName = wxT("ADCTester");
 
-	wxTheApp->SetVendorName(vendorName);
-	wxTheApp->SetAppName(appName);
+    wxTheApp->SetVendorName(vendorName);
+    wxTheApp->SetAppName(appName);
 
-	// Default executable directory:
-	wxChar fileSeparator('\\');
-	wxString exePath = wxStandardPaths::Get().GetExecutablePath();
-	exePath = exePath.BeforeLast(fileSeparator);
+    // Default executable directory:
+    wxChar fileSeparator('\\');
+    wxString exePath = wxStandardPaths::Get().GetExecutablePath();
+    exePath = exePath.BeforeLast(fileSeparator);
 
-	wxString dataFolder = wxStandardPaths::MSWGetShellDir(CSIDL_COMMON_DOCUMENTS);
-	wxString configFile = wxT("ADCTester.cfg");
-	wxFileName configFileName(dataFolder, configFile);
+    wxString dataFolder = wxStandardPaths::MSWGetShellDir(CSIDL_COMMON_DOCUMENTS);
+    wxString configFile = wxT("ADCTester.cfg");
+    wxFileName configFileName(dataFolder, configFile);
 
-	gPrefs = new wxFileConfig(appName, wxEmptyString,
+    gPrefs = new wxFileConfig(appName, wxEmptyString,
                              configFileName.GetFullPath(),
                              wxEmptyString, wxCONFIG_USE_LOCAL_FILE);
 
-	wxConfigBase::Set(gPrefs);
+    wxConfigBase::Set(gPrefs);
 
-	bool newPrefsInitialized = false;
-	gPrefs->Read(wxT("/NewPrefsInitialized"), &newPrefsInitialized, false);
-	int versionNumber = 0;
-	gPrefs->Read(wxT("/Version"), &versionNumber );
+    bool newPrefsInitialized = false;
+    gPrefs->Read(wxT("/NewPrefsInitialized"), &newPrefsInitialized, false);
+    int versionNumber = 0;
+    gPrefs->Read(wxT("/Version"), &versionNumber );
 
-	if (!newPrefsInitialized || (versionNumber < (RELEASE_VERSION + 100)) )
-	{
-	    versionNumber = RELEASE_VERSION+100;
-		gPrefs->Write(wxT("/NewPrefsInitialized"), true);
+    if (!newPrefsInitialized || (versionNumber < (RELEASE_VERSION + 100)) )
+    {
+        versionNumber = RELEASE_VERSION+100;
+        gPrefs->Write(wxT("/NewPrefsInitialized"), true);
         gPrefs->Write(wxT("/Version"), versionNumber);
-		gPrefs->Write(wxT("/Directories/DataDumpDir"), dataFolder);
-		gPrefs->Write(wxT("/AudioIO/AudioSRate"), 48000.0);
-		gPrefs->Write(wxT("/AudioIO/FrameSize"), 2048);
-		gPrefs->Write(wxT("/AudioIO/AudioHostName"), wxT(""));
-		gPrefs->Write(wxT("/AudioIO/InputDevName"), wxT("") );
-		gPrefs->Write(wxT("/AudioIO/InputDevChans"), 1 );
-		gPrefs->Write(wxT("/AudioIO/OutputDevName"), wxT(""));
-		gPrefs->Write(wxT("/AudioIO/OutputDevChans"), 1 );
-		gPrefs->Write(wxT("/AudioIO/InBufferLength"), 500);
-		gPrefs->Write(wxT("/AudioIO/InBufferThreshold"), 25);
-		gPrefs->Write(wxT("/AudioIO/OutBufferLength"), 500);
-		gPrefs->Write(wxT("/AudioIO/OutBufferThreshold"), 25);
-		gPrefs->Write(wxT("/Calibration/OutputStreamGain"), 0.0);
-		gPrefs->Write(wxT("/Calibration/RTALength"), 4096);
-		gPrefs->Write(wxT("/Calibration/RTAWindow"), 1);
-		gPrefs->Write(wxT("/Calibration/RTAExAvg"), 50);
-		gPrefs->Write(wxT("/Logging/EnumerateDevicesToFile"), 1 );
-		gPrefs->Write(wxT("/Logging/EnumerateDevicesToFilePath"), dataFolder );
-		gPrefs->Write(wxT("/Logging/LogToFile"), 0 );
-		gPrefs->Write(wxT("/Logging/LogToFilePath"), dataFolder );
-	}
+        gPrefs->Write(wxT("/Directories/DataDumpDir"), dataFolder);
+        gPrefs->Write(wxT("/AudioIO/AudioSRate"), 48000.0);
+        gPrefs->Write(wxT("/AudioIO/FrameSize"), 2048);
+        gPrefs->Write(wxT("/AudioIO/AudioHostName"), wxT(""));
+        gPrefs->Write(wxT("/AudioIO/InputDevName"), wxT("") );
+        gPrefs->Write(wxT("/AudioIO/InputDevChans"), 1 );
+        gPrefs->Write(wxT("/AudioIO/OutputDevName"), wxT(""));
+        gPrefs->Write(wxT("/AudioIO/OutputDevChans"), 1 );
+        gPrefs->Write(wxT("/AudioIO/InBufferLength"), 500);
+        gPrefs->Write(wxT("/AudioIO/InBufferThreshold"), 25);
+        gPrefs->Write(wxT("/AudioIO/OutBufferLength"), 500);
+        gPrefs->Write(wxT("/AudioIO/OutBufferThreshold"), 25);
+        gPrefs->Write(wxT("/Calibration/OutputStreamGain"), 0.0);
+        gPrefs->Write(wxT("/Calibration/RTALength"), 4096);
+        gPrefs->Write(wxT("/Calibration/RTAWindow"), 1);
+        gPrefs->Write(wxT("/Calibration/RTAExAvg"), 50);
+        gPrefs->Write(wxT("/Logging/EnumerateDevicesToFile"), 1 );
+        gPrefs->Write(wxT("/Logging/EnumerateDevicesToFilePath"), dataFolder );
+        gPrefs->Write(wxT("/Logging/LogToFile"), 0 );
+        gPrefs->Write(wxT("/Logging/LogToFilePath"), dataFolder );
+    }
 }
 
 void FinishPreferences()

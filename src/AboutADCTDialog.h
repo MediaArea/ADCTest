@@ -17,31 +17,31 @@
 
 class AboutADCTDialog: public wxDialog
 {
-	public:
+    public:
 
-		AboutADCTDialog(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
-		virtual ~AboutADCTDialog();
+        AboutADCTDialog(wxWindow* parent,wxWindowID id=wxID_ANY,const wxPoint& pos=wxDefaultPosition,const wxSize& size=wxDefaultSize);
+        virtual ~AboutADCTDialog();
 
-		//(*Declarations(AboutADCTDialog)
-		RimPanel* PanelBottom;
-		wxTextCtrl* TextCtrlLicense;
-		RimPanel* PanelTop;
-		//*)
+        //(*Declarations(AboutADCTDialog)
+        RimPanel* PanelBottom;
+        wxTextCtrl* TextCtrlLicense;
+        RimPanel* PanelTop;
+        //*)
 
-	protected:
+    protected:
 
-		//(*Identifiers(AboutADCTDialog)
-		static const long ID_PANEL_TOP;
-		static const long ID_TEXTCTRL_LICENSE;
-		static const long ID_PANEL_BOTTOM;
-		//*)
+        //(*Identifiers(AboutADCTDialog)
+        static const long ID_PANEL_TOP;
+        static const long ID_TEXTCTRL_LICENSE;
+        static const long ID_PANEL_BOTTOM;
+        //*)
 
-	private:
+    private:
 
-		//(*Handlers(AboutADCTDialog)
-		//*)
+        //(*Handlers(AboutADCTDialog)
+        //*)
 
-		DECLARE_EVENT_TABLE()
+        DECLARE_EVENT_TABLE()
 };
 
 #endif

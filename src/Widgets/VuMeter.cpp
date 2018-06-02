@@ -8,22 +8,22 @@
 
 
 BEGIN_EVENT_TABLE(VuMeter,wxWindow)
-	EVT_PAINT(VuMeter::OnPaint)
+    EVT_PAINT(VuMeter::OnPaint)
     EVT_SIZE( VuMeter::OnSize)
-	EVT_ERASE_BACKGROUND(VuMeter::OnEraseBackGround)
+    EVT_ERASE_BACKGROUND(VuMeter::OnEraseBackGround)
 END_EVENT_TABLE()
 
 VuMeter::VuMeter(wxWindow* parent,
-		                   const wxWindowID id,
-		                   const wxString label,
-		                   const wxString units,
+                           const wxWindowID id,
+                           const wxString label,
+                           const wxString units,
                            const wxPoint& pos,
                            const wxSize& size)
-	: wxWindow(parent, id, pos, size, 0)
-	,mSectorsDC(0)
-	,mTicksPos(0)
-	,mTicksEnabled(true)
-	,mTicksLinesEnabled(true)
+    : wxWindow(parent, id, pos, size, 0)
+    ,mSectorsDC(0)
+    ,mTicksPos(0)
+    ,mTicksEnabled(true)
+    ,mTicksLinesEnabled(true)
 {
 
   if (parent)
@@ -32,39 +32,39 @@ VuMeter::VuMeter(wxWindow* parent,
     SetBackgroundColour(parent->GetBackgroundColour());
 
     SetAutoLayout(TRUE);
-	Refresh();
+    Refresh();
 
-	mId = id;
-	mTextColor = wxColor( 128,80,80 );
-	mFont = *wxSWISS_FONT;	//font
-	mFont.SetPointSize(6);
+    mId = id;
+    mTextColor = wxColor( 128,80,80 );
+    mFont = *wxSWISS_FONT;    //font
+    mFont.SetPointSize(6);
     membitmap = new wxBitmap(200, 600);
 
-	/////////////// TODO : Test for BMP image loading /////////////////
-	setRange( 2, -60, 0, -6, -24);
-	SetNeedleColour( wxColour( 200, 200, 200 ) );
-	SetBackColour( wxColour( 0, 0, 0));
+    /////////////// TODO : Test for BMP image loading /////////////////
+    setRange( 2, -60, 0, -6, -24);
+    SetNeedleColour( wxColour( 200, 200, 200 ) );
+    SetBackColour( wxColour( 0, 0, 0));
 
     SetNumTick( 12 );
-	mTicksPos = new float[mNoTicks];
-	mTicksPos[0] = -110;
-	mTicksPos[1] = -100;
-	mTicksPos[2] = -80;
-	mTicksPos[3] = -60;
-	mTicksPos[4] = -48;
-	mTicksPos[5] = -36;
-	mTicksPos[6] = -24;
-	mTicksPos[7] = -12;
-	mTicksPos[8] = -6;
-	mTicksPos[9] = -3;
-	mTicksPos[10] = 0;
-//	mTicksPos[11] = 3;
+    mTicksPos = new float[mNoTicks];
+    mTicksPos[0] = -110;
+    mTicksPos[1] = -100;
+    mTicksPos[2] = -80;
+    mTicksPos[3] = -60;
+    mTicksPos[4] = -48;
+    mTicksPos[5] = -36;
+    mTicksPos[6] = -24;
+    mTicksPos[7] = -12;
+    mTicksPos[8] = -6;
+    mTicksPos[9] = -3;
+    mTicksPos[10] = 0;
+//    mTicksPos[11] = 3;
 }
 
 VuMeter::~VuMeter()
 {
-	delete membitmap;
-	delete [] mTicksPos;
+    delete membitmap;
+    delete [] mTicksPos;
 }
 
 void VuMeter::setRange( int channels,
@@ -76,16 +76,16 @@ void VuMeter::setRange( int channels,
     mChannels = channels;
     mRangeOffset = rangeEnd - 0;
     mRangeStart = rangeStart;
-	mRangeEnd = rangeEnd;
-	mTotalRange = fabs((float)mRangeEnd-(float)mRangeStart);
+    mRangeEnd = rangeEnd;
+    mTotalRange = fabs((float)mRangeEnd-(float)mRangeStart);
 
-	mGreenRangeValue = greenValue;
-	mRedRangeValue =  redValue;
+    mGreenRangeValue = greenValue;
+    mRedRangeValue =  redValue;
 
     mValues.peak[0] = 0;
     mValues.rms[0] = 3;
 
-	Reset();
+    Reset();
 }
 
 void VuMeter::SetNeedleColour(wxColour colour)
@@ -114,12 +114,12 @@ void VuMeter::SetValue( LevelMetrics lev )
 
 void VuMeter::Reset()
 {
-	for (int nCh = 0; nCh < mChannels; nCh++)
-	{
-		mValues.peak[nCh] = -118;
-		mValues.rms[nCh] = -118;
-	}
-	Refresh();
+    for (int nCh = 0; nCh < mChannels; nCh++)
+    {
+        mValues.peak[nCh] = -118;
+        mValues.rms[nCh] = -118;
+    }
+    Refresh();
 }
 
 void VuMeter::EnableTicks( bool ticks, bool ticksLines )
@@ -130,29 +130,29 @@ void VuMeter::EnableTicks( bool ticks, bool ticksLines )
 
 void VuMeter::OnPaint(wxPaintEvent& WXUNUSED(event))
 {
-	wxPaintDC old_dc(this);
+    wxPaintDC old_dc(this);
 
     /////////////////
     mLinearResolution = ((float)mWidgetHeight/mTotalRange);
 
-	// Create a memory DC
-	wxMemoryDC dc;
-	dc.SelectObject(*membitmap);
-	dc.SetBackground(*wxTheBrushList->FindOrCreateBrush(mBackColour,wxSOLID));
-	//dc.SetPen(*wxThePenList->FindOrCreatePen(wxColour(196,196,196), 1, wxPENSTYLE_SOLID));
-	dc.SetBrush(*wxTheBrushList->FindOrCreateBrush(mBackColour,wxSOLID));
-	//dc.DrawRectangle(0, 0, mWidgetWidth, mWidgetHeight);
-	dc.Clear();
-	//////////////////
-	//sectors
-	DrawSectors(dc);
-	/////////////////
-	//Needle
-	DrawNeedle(dc);
-	//////////////////
-	// We can now draw into the memory DC...
-	// Copy from this DC to another DC.
-	old_dc.Blit(0, 0, mWidgetWidth, mWidgetHeight, &dc, 0, 0);
+    // Create a memory DC
+    wxMemoryDC dc;
+    dc.SelectObject(*membitmap);
+    dc.SetBackground(*wxTheBrushList->FindOrCreateBrush(mBackColour,wxSOLID));
+    //dc.SetPen(*wxThePenList->FindOrCreatePen(wxColour(196,196,196), 1, wxPENSTYLE_SOLID));
+    dc.SetBrush(*wxTheBrushList->FindOrCreateBrush(mBackColour,wxSOLID));
+    //dc.DrawRectangle(0, 0, mWidgetWidth, mWidgetHeight);
+    dc.Clear();
+    //////////////////
+    //sectors
+    DrawSectors(dc);
+    /////////////////
+    //Needle
+    DrawNeedle(dc);
+    //////////////////
+    // We can now draw into the memory DC...
+    // Copy from this DC to another DC.
+    old_dc.Blit(0, 0, mWidgetWidth, mWidgetHeight, &dc, 0, 0);
 }
 
 

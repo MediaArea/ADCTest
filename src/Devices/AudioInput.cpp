@@ -23,12 +23,12 @@ AudioInput* gAudioInput;
 
 void InitAudioInput()
 {
-	//gAudioInput = new AudioInput;
+    //gAudioInput = new AudioInput;
 }
 
 void DeinitAudioInput()
 {
-	//delete gAudioInput;
+    //delete gAudioInput;
 }
 
 AudioInput::AudioInput()
@@ -61,8 +61,8 @@ AudioInput::AudioInput()
     gPrefs->Read(wxT("/AudioIO/InputDevChans"), &mLastUsedChannelConfig );
     gPrefs->Read(wxT("/Logging/LogToFile"), &mLogToFile );
     gPrefs->Read(wxT("/Logging/LogToFilePath"), &mLogToFilePath );
-	gPrefs->Read(wxT("/Logging/EnumerateDevicesToFile"), &mEnumerationToFile );
-	gPrefs->Read(wxT("/Logging/EnumerateDevicesToFilePath"), &mEnumerationToFilePath );
+    gPrefs->Read(wxT("/Logging/EnumerateDevicesToFile"), &mEnumerationToFile );
+    gPrefs->Read(wxT("/Logging/EnumerateDevicesToFilePath"), &mEnumerationToFilePath );
 
     //initialize stuff
     mCurrentInputDeviceInfo = wxT("none found");
@@ -125,11 +125,11 @@ AudioInput::~AudioInput()
     gPrefs->Write(wxT("/AudioIO/InputDevIdx"), mSelectedInputDeviceIndex );
     gPrefs->Write(wxT("/AudioIO/InputDevName"), mSelectedInputDeviceName );
     gPrefs->Write(wxT("/AudioIO/InputDevSRate"), mSelectedDeviceSRate );
-	gPrefs->Write(wxT("/AudioIO/InputDevChans"), mSelectedDeviceChannels );
-	gPrefs->Write(wxT("/AudioIO/OutputDevIdx"), mSelectedOutputDeviceIndex );
-	gPrefs->Write(wxT("/AudioIO/OutputDevName"), mSelectedOutputDeviceName );
-	gPrefs->Write(wxT("/AudioIO/OutputDevSRate"), mSelectedDeviceSRate );
-	gPrefs->Write(wxT("/AudioIO/OutputDevChans"), mSelectedDeviceChannels );
+    gPrefs->Write(wxT("/AudioIO/InputDevChans"), mSelectedDeviceChannels );
+    gPrefs->Write(wxT("/AudioIO/OutputDevIdx"), mSelectedOutputDeviceIndex );
+    gPrefs->Write(wxT("/AudioIO/OutputDevName"), mSelectedOutputDeviceName );
+    gPrefs->Write(wxT("/AudioIO/OutputDevSRate"), mSelectedDeviceSRate );
+    gPrefs->Write(wxT("/AudioIO/OutputDevChans"), mSelectedDeviceChannels );
     gPrefs->Write(wxT("/Logging/LogToFile"), mLogToFile );
     gPrefs->Write(wxT("/Logging/LogToFilePath"), mLogToFilePath );
     gPrefs->Write(wxT("/Logging/EnumerateDevicesToFile"), mEnumerationToFile );
@@ -176,9 +176,9 @@ bool AudioInput::isDeviceScanTerminated()
 void AudioInput::scanAvailableDevices()
 {
     mScanningThreadExited = false;
-	mDeviceScanThread = new DeviceScanThread;
-	mDeviceScanThread->Create();
-	mDeviceScanThread->Run();
+    mDeviceScanThread = new DeviceScanThread;
+    mDeviceScanThread->Create();
+    mDeviceScanThread->Run();
 }
 
 void AudioInput::doScanAvailableDevices()
@@ -502,17 +502,17 @@ bool AudioInput::stopIODevices()
 
 void AudioInput::startAcquisition()
 {
-  	mAcquisitionStopped = false;
-	mAcquisitionThreadExited = false;
-	if( mAudioInputThread )
-	{
-	    delete mAudioInputThread;
-	    mAudioInputThread = 0;
-	}
+      mAcquisitionStopped = false;
+    mAcquisitionThreadExited = false;
+    if( mAudioInputThread )
+    {
+        delete mAudioInputThread;
+        mAudioInputThread = 0;
+    }
 
-	mAudioInputThread = new AudioInputThread;
-	mAudioInputThread->Create();
-	mAudioInputThread->Run();
+    mAudioInputThread = new AudioInputThread;
+    mAudioInputThread->Create();
+    mAudioInputThread->Run();
 }
 
 void AudioInput::stopAcquisition()
@@ -631,12 +631,12 @@ wxString AudioInput::getEnumerationPath()
 //threads entry points
 DeviceScanThread::ExitCode DeviceScanThread::Entry()
 {
-	gAudioInput->doScanAvailableDevices();
-	return 0;
+    gAudioInput->doScanAvailableDevices();
+    return 0;
 }
 
 AudioInputThread::ExitCode AudioInputThread::Entry()
 {
-	gAudioInput->doAcquisition();
-	return 0;
+    gAudioInput->doAcquisition();
+    return 0;
 }

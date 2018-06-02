@@ -9,26 +9,26 @@
 class Crosstalk :public FADGIAnalyser
 {
 public:
-	Crosstalk();
-	virtual ~Crosstalk();
+    Crosstalk();
+    virtual ~Crosstalk();
 
-	int analyseSignal(wxXmlNode* testDescriptionNode);
+    int analyseSignal(wxXmlNode* testDescriptionNode);
 
-protected:	
-	FreqPoint getMaxLevelInResponse(SNDFILE* afile, std::vector<size_t> &onsets, int channelIndex, float startFreq, float endFreq);
+protected:
+    FreqPoint getMaxLevelInResponse(SNDFILE* afile, std::vector<size_t> &onsets, int channelIndex, float startFreq, float endFreq);
 
-	float calculateCrossTalk( SNDFILE* afile, std::vector<size_t> &onsets, int channelIndex);
-	bool buildReport();
+    float calculateCrossTalk( SNDFILE* afile, std::vector<size_t> &onsets, int channelIndex);
+    bool buildReport();
 
-	size_t mFFTLength;
-	size_t mFFTAverages;
-	size_t mFFTBins;
-	float mInputSignalLevel;
-	float mInputSignalFrequency;
+    size_t mFFTLength;
+    size_t mFFTAverages;
+    size_t mFFTBins;
+    float mInputSignalLevel;
+    float mInputSignalFrequency;
 
-	//Result from FFT analysis
-	std::vector<FreqPoint> mFrequencyResponse;
-	std::vector<float> mXTalkResults;
-	float mXTalkValue_Log;
+    //Result from FFT analysis
+    std::vector<FreqPoint> mFrequencyResponse;
+    std::vector<float> mXTalkResults;
+    float mXTalkValue_Log;
 };
 

@@ -81,7 +81,7 @@ const long AVPTesterFrame::ID_TOOLBAR1 = wxNewId();
 BEGIN_EVENT_TABLE(AVPTesterFrame,wxFrame)
     //(*EventTable(AVPTesterFrame)
     //*)
-	EVT_THREAD( AUDIOT_EVENT, AVPTesterFrame::OnAudioThreadEvent)
+    EVT_THREAD( AUDIOT_EVENT, AVPTesterFrame::OnAudioThreadEvent)
 END_EVENT_TABLE()
 
 AVPTesterFrame::AVPTesterFrame(wxWindow* parent,wxWindowID id)
@@ -109,9 +109,9 @@ AVPTesterFrame::AVPTesterFrame(wxWindow* parent,wxWindowID id)
 
     Create(parent, wxID_ANY, _("ADC Performance Test Tool"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX, _T("wxID_ANY"));
     {
-    	wxIcon FrameIcon;
-    	FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("UI\\favicon.ico"))));
-    	SetIcon(FrameIcon);
+        wxIcon FrameIcon;
+        FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("UI\\favicon.ico"))));
+        SetIcon(FrameIcon);
     }
     BoxSizerFrame = new wxBoxSizer(wxHORIZONTAL);
     PanelMainUI = new wxPanel(this, ID_PANEL_MAIN_UI, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL_MAIN_UI"));
@@ -308,32 +308,32 @@ AVPTesterFrame::AVPTesterFrame(wxWindow* parent,wxWindowID id)
     Connect(idMenuAbout,wxEVT_COMMAND_MENU_SELECTED,(wxObjectEventFunction)&AVPTesterFrame::OnAbout);
     //*)
 
-	Connect(ID_BUTTON_START_TESTS, wxEVT_COMMAND_GBUTTON, (wxObjectEventFunction)&AVPTesterFrame::OnButtonStartTestsClick);
-	Connect(ID_BUTTON_DO_SINGLETEST, wxEVT_COMMAND_GBUTTON, (wxObjectEventFunction)&AVPTesterFrame::OnButtonDoSingleTestClick);
+    Connect(ID_BUTTON_START_TESTS, wxEVT_COMMAND_GBUTTON, (wxObjectEventFunction)&AVPTesterFrame::OnButtonStartTestsClick);
+    Connect(ID_BUTTON_DO_SINGLETEST, wxEVT_COMMAND_GBUTTON, (wxObjectEventFunction)&AVPTesterFrame::OnButtonDoSingleTestClick);
 
-	InitPreferences();
+    InitPreferences();
 
-	InitAudioIO();
+    InitAudioIO();
 
-	BuildUI();
+    BuildUI();
 
-	if (gAudioIO)
-		gAudioIO->SetParent(this);
+    if (gAudioIO)
+        gAudioIO->SetParent(this);
 
     //SetIcon(wxIcon(_T("UI/favicon.ico"), wxBITMAP_TYPE_ICO) );
-	SetIcon(wxIcon(_T("sycon"), wxBITMAP_TYPE_ICO_RESOURCE));
+    SetIcon(wxIcon(_T("sycon"), wxBITMAP_TYPE_ICO_RESOURCE));
 
-	if (gAudioIO)
-	{
-		TestManager* tp = gAudioIO->GetTestManager();
-		tp->OpenProject(wxT("default.xml"));
-		PopulateTestsList();
-	}
+    if (gAudioIO)
+    {
+        TestManager* tp = gAudioIO->GetTestManager();
+        tp->OpenProject(wxT("default.xml"));
+        PopulateTestsList();
+    }
 
-	mTestIsRunning = false;
-	mTestOn = false;
+    mTestIsRunning = false;
+    mTestOn = false;
 
-	//mADevicesDialog->ShowModal();
+    //mADevicesDialog->ShowModal();
 }
 
 AVPTesterFrame::~AVPTesterFrame()
@@ -341,60 +341,60 @@ AVPTesterFrame::~AVPTesterFrame()
     //(*Destroy(AVPTesterFrame)
     //*)
 
-	if (mADevicesDialog) {
-		delete mADevicesDialog;
-		mADevicesDialog = NULL;
-	}
+    if (mADevicesDialog) {
+        delete mADevicesDialog;
+        mADevicesDialog = NULL;
+    }
 
-	if (mResultsDialog) {
-		delete mResultsDialog;
-		mResultsDialog = NULL;
-	}
+    if (mResultsDialog) {
+        delete mResultsDialog;
+        mResultsDialog = NULL;
+    }
 
 
     DeinitAudioIO();
-	FinishPreferences();
+    FinishPreferences();
 }
 
 void AVPTesterFrame::BuildUI()
 {
-	mADevicesDialog = new AudioDevicesDialog(this);
-	mResultsDialog = new ResultsDialog(this);
-	mResultsDialog->Show(false);
+    mADevicesDialog = new AudioDevicesDialog(this);
+    mResultsDialog = new ResultsDialog(this);
+    mResultsDialog->Show(false);
 
-	//set up test list
-	wxListItem itemColInputs;
-	itemColInputs.SetAlign(wxLIST_FORMAT_LEFT);
-	itemColInputs.SetText(_T("test name"));
-	ListViewTests->InsertColumn(0, itemColInputs);
-	itemColInputs.SetText(_T("enabled"));
-	ListViewTests->InsertColumn(1, itemColInputs);
-	itemColInputs.SetText(_T("result"));
-	ListViewTests->InsertColumn(2, itemColInputs);
+    //set up test list
+    wxListItem itemColInputs;
+    itemColInputs.SetAlign(wxLIST_FORMAT_LEFT);
+    itemColInputs.SetText(_T("test name"));
+    ListViewTests->InsertColumn(0, itemColInputs);
+    itemColInputs.SetText(_T("enabled"));
+    ListViewTests->InsertColumn(1, itemColInputs);
+    itemColInputs.SetText(_T("result"));
+    ListViewTests->InsertColumn(2, itemColInputs);
 
-	itemColInputs.SetAlign(wxLIST_FORMAT_LEFT);
-	itemColInputs.SetText(_T("parameter"));
-	ListViewParameters->InsertColumn(0, itemColInputs);
-	itemColInputs.SetText(_T("value"));
-	ListViewParameters->InsertColumn(1, itemColInputs);
+    itemColInputs.SetAlign(wxLIST_FORMAT_LEFT);
+    itemColInputs.SetText(_T("parameter"));
+    ListViewParameters->InsertColumn(0, itemColInputs);
+    itemColInputs.SetText(_T("value"));
+    ListViewParameters->InsertColumn(1, itemColInputs);
 }
 
 void AVPTesterFrame::OnMenuItemFOpenSelected(wxCommandEvent& event)
 {
-	wxFileDialog openFileDlg(this, wxT("Open project"), wxT(""), wxT(""), wxT("Test files (*.xml)|*.xml"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
+    wxFileDialog openFileDlg(this, wxT("Open project"), wxT(""), wxT(""), wxT("Test files (*.xml)|*.xml"), wxFD_OPEN|wxFD_FILE_MUST_EXIST);
     if( openFileDlg.ShowModal() == wxID_OK )
     {
         wxString filePath = openFileDlg.GetPath();
         TestManager* tm = gAudioIO->GetTestManager();
         tm->OpenProject(filePath);
-		PopulateTestsList();
+        PopulateTestsList();
     }
 }
 
 void AVPTesterFrame::OnMenuItemFSaveSelected(wxCommandEvent& event)
 {
-	TestManager* tm = gAudioIO->GetTestManager();
-	tm->SaveProject();
+    TestManager* tm = gAudioIO->GetTestManager();
+    tm->SaveProject();
 }
 
 void AVPTesterFrame::OnQuit(wxCommandEvent& event)
@@ -404,432 +404,432 @@ void AVPTesterFrame::OnQuit(wxCommandEvent& event)
 
 void AVPTesterFrame::OnAbout(wxCommandEvent& event)
 {
-	//wxString msg = wxT("AVPreserve Low-cost ADC Test Tool Prototype\nCopyright 2017 Audiovisual Preservation Solutions, Inc.");// wxbuildinfo(long_f);
+    //wxString msg = wxT("AVPreserve Low-cost ADC Test Tool Prototype\nCopyright 2017 Audiovisual Preservation Solutions, Inc.");// wxbuildinfo(long_f);
     //wxMessageBox(msg, _("Welcome to..."));
-	AboutADCTDialog dlg(this);
-	dlg.ShowModal();
+    AboutADCTDialog dlg(this);
+    dlg.ShowModal();
 }
 
 void AVPTesterFrame::OnMenuItemDevicesSelected(wxCommandEvent& event)
 {
-	if (mTestIsRunning)
-	{
-		wxMessageBox(wxT("The test procedure is running\nSettings modifications are not permitted"), wxT("Attention!"));
-	}
-	else
-	{
-		mADevicesDialog->ShowModal();
-		mADevicesDialog->StopCalibration();
-	}
+    if (mTestIsRunning)
+    {
+        wxMessageBox(wxT("The test procedure is running\nSettings modifications are not permitted"), wxT("Attention!"));
+    }
+    else
+    {
+        mADevicesDialog->ShowModal();
+        mADevicesDialog->StopCalibration();
+    }
 }
 
 void
 AVPTesterFrame::OnMenuItemOpenManualSelected(wxCommandEvent& event)
 {
-	wxString url = wxT("userguide.pdf");
-	wxViewPDFFile(url);
+    wxString url = wxT("userguide.pdf");
+    wxViewPDFFile(url);
 }
 
 void
 AVPTesterFrame::EnableTestUI(bool enable)
 {
-	ListViewTests->Enable(enable);
-	ListViewParameters->Enable(enable);
-	ButtonDoSingleTest->Enable(enable);
-	MenuItemDevices->Enable(enable);
+    ListViewTests->Enable(enable);
+    ListViewParameters->Enable(enable);
+    ButtonDoSingleTest->Enable(enable);
+    MenuItemDevices->Enable(enable);
 
-	if( enable){
-		ButtonStartTests->SetLbText(wxT("Start procedure"));
-		mTestOn = false;
-	}
-	else {
-		ButtonStartTests->SetLbText(wxT("Stop procedure"));
-		mTestOn = true;
-	}
+    if( enable){
+        ButtonStartTests->SetLbText(wxT("Start procedure"));
+        mTestOn = false;
+    }
+    else {
+        ButtonStartTests->SetLbText(wxT("Stop procedure"));
+        mTestOn = true;
+    }
 }
 
 void
 AVPTesterFrame::OnAudioThreadEvent(wxThreadEvent& event)
 {
-	AudioThreadEvent ePl = event.GetPayload<AudioThreadEvent>();
+    AudioThreadEvent ePl = event.GetPayload<AudioThreadEvent>();
 
-	switch (ePl.processID)
-	{
-		//calibration process
-		case 1:
-		{
-			WriteLogMsg( wxT("Calibration ") + ePl.eventMessage + wxT("\n") + ePl.debugInfo);
+    switch (ePl.processID)
+    {
+        //calibration process
+        case 1:
+        {
+            WriteLogMsg( wxT("Calibration ") + ePl.eventMessage + wxT("\n") + ePl.debugInfo);
 
-			if (ePl.threadFinished)
-			{
-				mADevicesDialog->StopCalibration();
-				wxMessageBox(ePl.eventMessage, wxT("Calibration finished"));
-			}
+            if (ePl.threadFinished)
+            {
+                mADevicesDialog->StopCalibration();
+                wxMessageBox(ePl.eventMessage, wxT("Calibration finished"));
+            }
 
-		}
-		break;
+        }
+        break;
 
-		//test process
-		case 2:
-		{
-			WriteLogMsg(wxT("Test Event: ") + ePl.eventMessage);
+        //test process
+        case 2:
+        {
+            WriteLogMsg(wxT("Test Event: ") + ePl.eventMessage);
 
-			switch (ePl.eventID)
-			{
-				case AVP_PROCESS_START:
-				// test procedure has started
-				{
-					mTestIsRunning = true;
-					EnableTestUI(false);
-				}
-				break;
+            switch (ePl.eventID)
+            {
+                case AVP_PROCESS_START:
+                // test procedure has started
+                {
+                    mTestIsRunning = true;
+                    EnableTestUI(false);
+                }
+                break;
 
-				case AVP_PROCESS_STAGE:
-				// test procedure in progress
-				{
-					mTestIsRunning = true;
-					EnableTestUI(false);
-					int count = ePl.eventCounter;
-					int range = ePl.eventRange;
-					wxString cntMsg; cntMsg.Printf(wxT(" %d of %d"), count + 1, range);
-					WriteLogMsg(ePl.eventMessage + cntMsg);
-					ListViewTests->Select(count);
-				}
-				break;
+                case AVP_PROCESS_STAGE:
+                // test procedure in progress
+                {
+                    mTestIsRunning = true;
+                    EnableTestUI(false);
+                    int count = ePl.eventCounter;
+                    int range = ePl.eventRange;
+                    wxString cntMsg; cntMsg.Printf(wxT(" %d of %d"), count + 1, range);
+                    WriteLogMsg(ePl.eventMessage + cntMsg);
+                    ListViewTests->Select(count);
+                }
+                break;
 
-				case AVP_PROCESS_RESULT:
-				// test procedure completed
-				{
-					mTestIsRunning = true;
-					EnableTestUI(false);
-					int count = ePl.eventCounter;
-					int range = ePl.eventRange;
-					wxString result = ePl.eventMessage;
-					wxString cntMsg; cntMsg.Printf(wxT(" %d of %d"), count + 1, range);
-					WriteLogMsg(ePl.eventMessage + cntMsg);
+                case AVP_PROCESS_RESULT:
+                // test procedure completed
+                {
+                    mTestIsRunning = true;
+                    EnableTestUI(false);
+                    int count = ePl.eventCounter;
+                    int range = ePl.eventRange;
+                    wxString result = ePl.eventMessage;
+                    wxString cntMsg; cntMsg.Printf(wxT(" %d of %d"), count + 1, range);
+                    WriteLogMsg(ePl.eventMessage + cntMsg);
 
-					ListViewTests->SetItem(count, 2, result);
+                    ListViewTests->SetItem(count, 2, result);
 
-					if (result.Contains(wxT("error")))
-						ListViewTests->SetItemBackgroundColour(count, wxColour(255, 255, 200, 255));
-					if( result == wxT("pass"))
-						ListViewTests->SetItemBackgroundColour(count, wxColour(200,255,200, 255));
-					if (result == wxT("fail"))
-						ListViewTests->SetItemBackgroundColour(count, wxColour(255, 200, 200, 255));
-				}
-				break;
-			}
+                    if (result.Contains(wxT("error")))
+                        ListViewTests->SetItemBackgroundColour(count, wxColour(255, 255, 200, 255));
+                    if( result == wxT("pass"))
+                        ListViewTests->SetItemBackgroundColour(count, wxColour(200,255,200, 255));
+                    if (result == wxT("fail"))
+                        ListViewTests->SetItemBackgroundColour(count, wxColour(255, 200, 200, 255));
+                }
+                break;
+            }
 
-			if (ePl.threadFinished)
-			{
-				gAudioIO->StopTestProcedure();
-				if( ePl.eventID < 0 )
-					wxMessageBox(wxT("Procedure completed with errors"), wxT("Tests finished"));
-				else
-					wxMessageBox(wxT("Procedure completed successfully"), wxT("Tests finished"));
+            if (ePl.threadFinished)
+            {
+                gAudioIO->StopTestProcedure();
+                if( ePl.eventID < 0 )
+                    wxMessageBox(wxT("Procedure completed with errors"), wxT("Tests finished"));
+                else
+                    wxMessageBox(wxT("Procedure completed successfully"), wxT("Tests finished"));
 
-				mTestIsRunning = false;
-				EnableTestUI(true);
+                mTestIsRunning = false;
+                EnableTestUI(true);
 
-				ListViewTests->Select(ePl.eventCounter, false);
-			}
+                ListViewTests->Select(ePl.eventCounter, false);
+            }
 
-		}
-		break;
-	}
+        }
+        break;
+    }
 }
 
 void AVPTesterFrame::WriteLogMsg( wxString msg )
 {
-	mLogMsg += wxT("\n");
-	mLogMsg += msg;
-	TextCtrlLog->AppendText(wxT("\n")+msg);
+    mLogMsg += wxT("\n");
+    mLogMsg += msg;
+    TextCtrlLog->AppendText(wxT("\n")+msg);
 }
 
 void AVPTesterFrame::OnButtonStartTestsClick(wxCommandEvent& event)
 {
-	if (mTestOn) {
-		WriteLogMsg(wxT("button stop"));
-		gAudioIO->StopTestProcedure();
-	}
-	else {
-		PopulateTestsList();
-		mLogMsg.Clear();
-		TextCtrlLog->Clear();
-		WriteLogMsg(wxT("button start"));
-		gAudioIO->StartTestProcedure();
-	}
-	mTestOn = !mTestOn;
+    if (mTestOn) {
+        WriteLogMsg(wxT("button stop"));
+        gAudioIO->StopTestProcedure();
+    }
+    else {
+        PopulateTestsList();
+        mLogMsg.Clear();
+        TextCtrlLog->Clear();
+        WriteLogMsg(wxT("button start"));
+        gAudioIO->StartTestProcedure();
+    }
+    mTestOn = !mTestOn;
 }
 
 void AVPTesterFrame::OnButtonDoSingleTestClick(wxCommandEvent& event)
 {
-	if( mSelectedTestIdx >= 0 )
-		gAudioIO->StartTestProcedure(mSelectedTestIdx);
+    if( mSelectedTestIdx >= 0 )
+        gAudioIO->StartTestProcedure(mSelectedTestIdx);
 }
 
 void
 AVPTesterFrame::PopulateTestsList()
 {
-	mSelectedTestIdx = -1;
-	mSelectedParamIdx = -1;
+    mSelectedTestIdx = -1;
+    mSelectedParamIdx = -1;
 
-	ListViewTests->DeleteAllItems();
+    ListViewTests->DeleteAllItems();
 
-	TestManager* tm = gAudioIO->GetTestManager();
-	mTestDescriptors = tm->GetTestDescriptors();
+    TestManager* tm = gAudioIO->GetTestManager();
+    mTestDescriptors = tm->GetTestDescriptors();
 
-	for (size_t i = 0; i < mTestDescriptors.size(); i++)
-	{
-		TestDescriptor desc = mTestDescriptors[i];
+    for (size_t i = 0; i < mTestDescriptors.size(); i++)
+    {
+        TestDescriptor desc = mTestDescriptors[i];
 
-		ListViewTests->InsertItem(i, desc.name, 0);
+        ListViewTests->InsertItem(i, desc.name, 0);
 
-		if(desc.enabled == wxT("true"))
-			ListViewTests->SetItem(i, 1, wxT("enabled"));
-		else
-			ListViewTests->SetItem(i, 1, wxT("disabled"));
+        if(desc.enabled == wxT("true"))
+            ListViewTests->SetItem(i, 1, wxT("enabled"));
+        else
+            ListViewTests->SetItem(i, 1, wxT("disabled"));
 
-		ListViewTests->SetItem(i, 2, wxT("unavail."));
-	}
-	ListViewTests->SetColumnWidth(0, 150);
-	ListViewTests->SetColumnWidth(1, 100);
-	ListViewTests->SetColumnWidth(1, 100);
+        ListViewTests->SetItem(i, 2, wxT("unavail."));
+    }
+    ListViewTests->SetColumnWidth(0, 150);
+    ListViewTests->SetColumnWidth(1, 100);
+    ListViewTests->SetColumnWidth(1, 100);
 
-	ListViewParameters->DeleteAllItems();
+    ListViewParameters->DeleteAllItems();
 }
 
 void
 AVPTesterFrame::PopulateTestParametersList()
 {
-	mSelectedParamIdx = -1;
-	ListViewParameters->DeleteAllItems();
+    mSelectedParamIdx = -1;
+    ListViewParameters->DeleteAllItems();
 
-	TestDescriptor dsc = mTestDescriptors[mSelectedTestIdx];
-	TestManager* tm = gAudioIO->GetTestManager();
-	mParametersDescriptors = tm->GetTestParameters(dsc.ID);
-	for (size_t i = 0; i < mParametersDescriptors.size(); i++)
-	{
-		TestParameter pr = mParametersDescriptors[i];
-		ListViewParameters->InsertItem(i, pr.name, 0);
-		ListViewParameters->SetItem(i, 1, pr.value);
-	}
-	ListViewParameters->SetColumnWidth(0, 125);
-	ListViewParameters->SetColumnWidth(1, 150);
+    TestDescriptor dsc = mTestDescriptors[mSelectedTestIdx];
+    TestManager* tm = gAudioIO->GetTestManager();
+    mParametersDescriptors = tm->GetTestParameters(dsc.ID);
+    for (size_t i = 0; i < mParametersDescriptors.size(); i++)
+    {
+        TestParameter pr = mParametersDescriptors[i];
+        ListViewParameters->InsertItem(i, pr.name, 0);
+        ListViewParameters->SetItem(i, 1, pr.value);
+    }
+    ListViewParameters->SetColumnWidth(0, 125);
+    ListViewParameters->SetColumnWidth(1, 150);
 }
 
 void AVPTesterFrame::OnListViewTestsItemSelect(wxListEvent& event)
 {
-	mSelectedTestIdx = event.m_itemIndex;
+    mSelectedTestIdx = event.m_itemIndex;
 
-	if (mSelectedTestIdx >= 0)
-	{
-		TestDescriptor dsc = mTestDescriptors[mSelectedTestIdx];
-		TextCtrlTestDescription->SetValue(dsc.alias);
-	}
+    if (mSelectedTestIdx >= 0)
+    {
+        TestDescriptor dsc = mTestDescriptors[mSelectedTestIdx];
+        TextCtrlTestDescription->SetValue(dsc.alias);
+    }
 
-	PopulateTestParametersList();
+    PopulateTestParametersList();
 }
 
 void AVPTesterFrame::OnListViewTestsItemActivated(wxListEvent& event)
 {
-	TestDescriptor dsc = mTestDescriptors[mSelectedTestIdx];
-	TestManager* tm = gAudioIO->GetTestManager();
-	std::vector<TestParameter> params = tm->GetTestParameters(dsc.ID);
+    TestDescriptor dsc = mTestDescriptors[mSelectedTestIdx];
+    TestManager* tm = gAudioIO->GetTestManager();
+    std::vector<TestParameter> params = tm->GetTestParameters(dsc.ID);
 
-	wxString wSeparator = wxT("\\");
-	wxString wFolder=wxEmptyString;
-	wxString wFileName = wxEmptyString;
-	for (size_t paramIdx = 0; paramIdx < params.size(); paramIdx++)
-	{
-		TestParameter prm = params[paramIdx];
-		if (prm.name == wxT("workfolder"))
-			wFolder = prm.value;
+    wxString wSeparator = wxT("\\");
+    wxString wFolder=wxEmptyString;
+    wxString wFileName = wxEmptyString;
+    for (size_t paramIdx = 0; paramIdx < params.size(); paramIdx++)
+    {
+        TestParameter prm = params[paramIdx];
+        if (prm.name == wxT("workfolder"))
+            wFolder = prm.value;
 
-		if (prm.name == wxT("resultsfile"))
-			wFileName = prm.value;
-	}
+        if (prm.name == wxT("resultsfile"))
+            wFileName = prm.value;
+    }
 
-	wxString filePath = wFolder + wSeparator + wFileName;
-	if (wxFileName::FileExists(filePath))
-	{
-		mResultsDialog->OpenResultsFile(filePath);
-		mResultsDialog->Show(true);
-		mResultsDialog->EnablePanZoom(true);
-	}
-	else
-		wxMessageBox(wxT("No results are available for this test"), wxT("missing .."));
+    wxString filePath = wFolder + wSeparator + wFileName;
+    if (wxFileName::FileExists(filePath))
+    {
+        mResultsDialog->OpenResultsFile(filePath);
+        mResultsDialog->Show(true);
+        mResultsDialog->EnablePanZoom(true);
+    }
+    else
+        wxMessageBox(wxT("No results are available for this test"), wxT("missing .."));
 }
 
 void AVPTesterFrame::OnListViewTestsItemRClick(wxListEvent& event)
 {
-	mSelectedTestIdx = event.m_itemIndex;
+    mSelectedTestIdx = event.m_itemIndex;
 
-	wxMenu menu(wxT("test procedure"));
-	menu.Append(0, wxT("&enable"));
-	menu.Append(1, wxT("&disable"));
-	menu.Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AVPTesterFrame::OnTestMenuPopupClick), NULL, this);
-	PopupMenu(&menu, event.GetPoint());
+    wxMenu menu(wxT("test procedure"));
+    menu.Append(0, wxT("&enable"));
+    menu.Append(1, wxT("&disable"));
+    menu.Connect(wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(AVPTesterFrame::OnTestMenuPopupClick), NULL, this);
+    PopupMenu(&menu, event.GetPoint());
 }
 
 void AVPTesterFrame::OnTestMenuPopupClick(wxCommandEvent &evt)
 {
-	TestDescriptor dsc= mTestDescriptors[mSelectedTestIdx];
-	TestManager* tm = gAudioIO->GetTestManager();
+    TestDescriptor dsc= mTestDescriptors[mSelectedTestIdx];
+    TestManager* tm = gAudioIO->GetTestManager();
 
-	void *data = static_cast<wxMenu *>(evt.GetEventObject())->GetClientData();
-	switch (evt.GetId())
-	{
-		case 0:
-		{
-			tm->EnableTest(dsc.ID, true);
-		}
-		break;
+    void *data = static_cast<wxMenu *>(evt.GetEventObject())->GetClientData();
+    switch (evt.GetId())
+    {
+        case 0:
+        {
+            tm->EnableTest(dsc.ID, true);
+        }
+        break;
 
-		case 1:
-		{
-			tm->EnableTest(dsc.ID, false);
-		}
-		break;
-	}
-	PopulateTestsList();
+        case 1:
+        {
+            tm->EnableTest(dsc.ID, false);
+        }
+        break;
+    }
+    PopulateTestsList();
 }
 
 void AVPTesterFrame::OnListViewParametersItemSelect(wxListEvent& event)
 {
-	mSelectedParamIdx = event.m_itemIndex;
+    mSelectedParamIdx = event.m_itemIndex;
 }
 
 void AVPTesterFrame::OnListViewParametersItemActivated(wxListEvent& event)
 {
-	if ((mSelectedTestIdx >= 0) && (mSelectedParamIdx >= 0))
-	{
-		TestParameter pr = mParametersDescriptors[mSelectedParamIdx];
+    if ((mSelectedTestIdx >= 0) && (mSelectedParamIdx >= 0))
+    {
+        TestParameter pr = mParametersDescriptors[mSelectedParamIdx];
 
-		mParamDialog = new ParamEditDialog(this);
-		mParamDialog->EditParameter(mSelectedTestIdx, pr.name);
+        mParamDialog = new ParamEditDialog(this);
+        mParamDialog->EditParameter(mSelectedTestIdx, pr.name);
 
-		if (mParamDialog->ShowModal() == wxID_OK)
-		{
-			PopulateTestParametersList();
-		}
+        if (mParamDialog->ShowModal() == wxID_OK)
+        {
+            PopulateTestParametersList();
+        }
 
-		delete mParamDialog;
-	}
+        delete mParamDialog;
+    }
 }
 
 
 bool
 AVPTesterFrame::wxViewPDFFile(const wxString& command, const wxString& specificErrorMessage)
 {
-	// First see if there are any arguments
-	wxString actualCommand, arguments;
-	wxSeparateCommandAndArguments(command, actualCommand, arguments);
+    // First see if there are any arguments
+    wxString actualCommand, arguments;
+    wxSeparateCommandAndArguments(command, actualCommand, arguments);
 
-	wxString ext;// path, file;
-	//wxSplitPath(actualCommand, &volume, &path, &file, &ext, wxPATH_NATIVE);
-	wxFileName ff(actualCommand);
-	ext = ff.GetExt();
+    wxString ext;// path, file;
+    //wxSplitPath(actualCommand, &volume, &path, &file, &ext, wxPATH_NATIVE);
+    wxFileName ff(actualCommand);
+    ext = ff.GetExt();
 
-	wxString extLower(ext.Lower());
-	if (extLower == wxT("html") ||
-		extLower == wxT("htm") ||
-		extLower == wxT("sgml"))
-	{
-		//wxViewHTMLFile(command);
-		return true;
-	}
-	else
-	{
-		bool isApp = false;
-		if (ext.Lower() == wxT("exe") ||
-			ext.Lower() == wxT("com") ||
-			ext.Lower() == wxT("cmd") ||
-			ext.Lower() == wxT("bat"))
-			isApp = true;
+    wxString extLower(ext.Lower());
+    if (extLower == wxT("html") ||
+        extLower == wxT("htm") ||
+        extLower == wxT("sgml"))
+    {
+        //wxViewHTMLFile(command);
+        return true;
+    }
+    else
+    {
+        bool isApp = false;
+        if (ext.Lower() == wxT("exe") ||
+            ext.Lower() == wxT("com") ||
+            ext.Lower() == wxT("cmd") ||
+            ext.Lower() == wxT("bat"))
+            isApp = true;
 
-		if (ext.IsEmpty())
-			isApp = true;
+        if (ext.IsEmpty())
+            isApp = true;
 
-		if (isApp)
-		{
-			wxString command2 = actualCommand;
-			if (command2.GetChar(0) != wxT('"'))
-				command2 = wxT("\"") + actualCommand + wxT("\"");
-			return (wxExecute(command2) != 0);
-		}
+        if (isApp)
+        {
+            wxString command2 = actualCommand;
+            if (command2.GetChar(0) != wxT('"'))
+                command2 = wxT("\"") + actualCommand + wxT("\"");
+            return (wxExecute(command2) != 0);
+        }
 
-		wxString msg;
-		wxString errMsg = specificErrorMessage;
-		if (errMsg.IsEmpty())
-		{
-			errMsg = _("Please install a suitable application.");
-		}
+        wxString msg;
+        wxString errMsg = specificErrorMessage;
+        if (errMsg.IsEmpty())
+        {
+            errMsg = _("Please install a suitable application.");
+        }
 
-		if (!ext.IsEmpty())
-		{
-			wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromExtension(ext);
-			if (!ft)
-			{
-				wxString msg;
-				msg.Printf(_("Could not determine the application for extension %s.\n%s"), (const wxChar*)ext, (const wxChar*)errMsg);
-				wxMessageBox(msg, wxT("Run command"), wxOK | wxICON_EXCLAMATION);
-				return false;
-			}
+        if (!ext.IsEmpty())
+        {
+            wxFileType *ft = wxTheMimeTypesManager->GetFileTypeFromExtension(ext);
+            if (!ft)
+            {
+                wxString msg;
+                msg.Printf(_("Could not determine the application for extension %s.\n%s"), (const wxChar*)ext, (const wxChar*)errMsg);
+                wxMessageBox(msg, wxT("Run command"), wxOK | wxICON_EXCLAMATION);
+                return false;
+            }
 
-			wxString cmd;
-			wxString params = command;
-			bool ok = ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(params));
+            wxString cmd;
+            wxString params = command;
+            bool ok = ft->GetOpenCommand(&cmd, wxFileType::MessageParameters(params));
 
-			//wxMessageBox(cmd);
+            //wxMessageBox(cmd);
 
-			delete ft;
+            delete ft;
 
-			if (!ok)
-			{
-				// TODO: some kind of configuration dialog here.
-				wxString msg;
-				msg.Printf(wxT("Could not determine the command for running %s.\n%s"), (const wxChar*)command, (const wxChar*)errMsg);
+            if (!ok)
+            {
+                // TODO: some kind of configuration dialog here.
+                wxString msg;
+                msg.Printf(wxT("Could not determine the command for running %s.\n%s"), (const wxChar*)command, (const wxChar*)errMsg);
 
-				wxMessageBox(msg, wxT("Run command"), wxOK | wxICON_EXCLAMATION);
-				return false;
-			}
+                wxMessageBox(msg, wxT("Run command"), wxOK | wxICON_EXCLAMATION);
+                return false;
+            }
 
-			ok = (wxExecute(cmd, false) != 0);
-			return ok;
-		}
-		return false;
-	}
-	return true;
+            ok = (wxExecute(cmd, false) != 0);
+            return ok;
+        }
+        return false;
+    }
+    return true;
 }
 
 // Separate the command-line from the arguments
 bool
 AVPTesterFrame::wxSeparateCommandAndArguments(const wxString& command, wxString& cmd, wxString& args)
 {
-	wxString lowerCaseCommand(command.Lower());
-	cmd = command;
-	args = wxEmptyString;
+    wxString lowerCaseCommand(command.Lower());
+    cmd = command;
+    args = wxEmptyString;
 
-	wxString command2 = command;
-	command2.Replace(wxT("\""), wxT(""));
-	wxArrayString toFind;
-	toFind.Add(wxT(".exe "));
-	toFind.Add(wxT(".com "));
-	toFind.Add(wxT(".bat "));
-	toFind.Add(wxT(".cmd "));
-	size_t i;
-	size_t sz = toFind.GetCount();
-	for (i = 0; i < sz; i++)
-	{
-		int pos = command2.Find(toFind[i]);
-		if (pos > -1)
-		{
-			cmd = command2.Mid(0, pos + toFind[i].Length() - 1);
-			args = command2.Mid(pos + toFind[i].Length());
-			return true;
-		}
-	}
-	return true;
+    wxString command2 = command;
+    command2.Replace(wxT("\""), wxT(""));
+    wxArrayString toFind;
+    toFind.Add(wxT(".exe "));
+    toFind.Add(wxT(".com "));
+    toFind.Add(wxT(".bat "));
+    toFind.Add(wxT(".cmd "));
+    size_t i;
+    size_t sz = toFind.GetCount();
+    for (i = 0; i < sz; i++)
+    {
+        int pos = command2.Find(toFind[i]);
+        if (pos > -1)
+        {
+            cmd = command2.Mid(0, pos + toFind[i].Length() - 1);
+            args = command2.Mid(pos + toFind[i].Length());
+            return true;
+        }
+    }
+    return true;
 }
 

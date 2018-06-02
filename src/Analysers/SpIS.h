@@ -9,28 +9,28 @@
 class SpIS :public FADGIAnalyser
 {
 public:
-	SpIS();
-	virtual ~SpIS();
+    SpIS();
+    virtual ~SpIS();
 
-	int analyseSignal(wxXmlNode* testDescriptionNode);
+    int analyseSignal(wxXmlNode* testDescriptionNode);
 
 protected:
-	float calculateSpIS( SNDFILE* afile, std::vector<size_t> &onsets, int channelIndex);
-	bool buildReport();
+    float calculateSpIS( SNDFILE* afile, std::vector<size_t> &onsets, int channelIndex);
+    bool buildReport();
 
-	size_t mFFTLength;
-	size_t mFFTAverages;
-	size_t mFFTBins;
-	double mInputSignalLevel;
-	double mInputSignalFrequency;
-	//bandwidth of fundemantal and harmonic frequencies exclusion areas 
-	double mNotchBandwidth;
+    size_t mFFTLength;
+    size_t mFFTAverages;
+    size_t mFFTBins;
+    double mInputSignalLevel;
+    double mInputSignalFrequency;
+    //bandwidth of fundemantal and harmonic frequencies exclusion areas
+    double mNotchBandwidth;
 
-	//Result from FFT analysis
-	std::vector<FreqPoint> mFrequencyResponse;
+    //Result from FFT analysis
+    std::vector<FreqPoint> mFrequencyResponse;
 
-	double mMaxSpISFrequency;
-	double mMaxSpISLevel_Lin;
-	double mMaxSpISLevel_Log;
+    double mMaxSpISFrequency;
+    double mMaxSpISLevel_Lin;
+    double mMaxSpISLevel_Log;
 };
 

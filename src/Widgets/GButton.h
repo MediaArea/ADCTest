@@ -16,32 +16,32 @@
 /////////////////////////////////////////
 class GButtonEvent: public wxCommandEvent
 {
-	public:
-		GButtonEvent(wxEventType commandType = wxEVT_NULL, int id = 0 );
+    public:
+        GButtonEvent(wxEventType commandType = wxEVT_NULL, int id = 0 );
 
-		virtual wxEvent *Clone() const { return new GButtonEvent(*this); }
+        virtual wxEvent *Clone() const { return new GButtonEvent(*this); }
 
-	private:
-	DECLARE_DYNAMIC_CLASS(GButtonEvent)
+    private:
+    DECLARE_DYNAMIC_CLASS(GButtonEvent)
 };
 
 BEGIN_DECLARE_EVENT_TYPES()
-	DECLARE_EVENT_TYPE(wxEVT_COMMAND_GBUTTON, -1)
+    DECLARE_EVENT_TYPE(wxEVT_COMMAND_GBUTTON, -1)
 END_DECLARE_EVENT_TYPES()
 
 typedef void (wxEvtHandler::*wxGButtonEventFunction)(GButtonEvent&);
 
 #define EVT_GBUTTON(id, fn) \
-	DECLARE_EVENT_TABLE_ENTRY(wxEVT_COMMAND_GBUTTON, id, -1,  \
-	(wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction)  \
-	wxStaticCastEvent(wxGButtonEventFunction, & fn), (wxObject *) NULL ),
+    DECLARE_EVENT_TABLE_ENTRY(wxEVT_COMMAND_GBUTTON, id, -1,  \
+    (wxObjectEventFunction) (wxEventFunction) (wxCommandEventFunction)  \
+    wxStaticCastEvent(wxGButtonEventFunction, & fn), (wxObject *) NULL ),
 
 
 /////////////////////////////
 class GButton: public wxPanel
 {
-	public:
-		GButton(wxWindow *parent,
+    public:
+        GButton(wxWindow *parent,
                 wxWindowID id,
                 const wxString &label=wxEmptyString,
                 const wxPoint &pos=wxDefaultPosition,
@@ -49,72 +49,72 @@ class GButton: public wxPanel
                 long style=0,
                 const wxValidator &validator=wxDefaultValidator,
                 const wxString &name=wxT(""));
-		// Destructor
-		virtual ~GButton();
+        // Destructor
+        virtual ~GButton();
 
-		// Creators
-		bool Create(wxWindow* parent,
+        // Creators
+        bool Create(wxWindow* parent,
                     wxWindowID id,
                     const wxPoint& pos,
                     const wxSize &size,
                     const wxString& button,
-			        const wxString& hover,
-			        const wxString& click);
+                    const wxString& hover,
+                    const wxString& click);
 
         void setFont(wxFont& font);
-		void SetLbText(wxString label);
+        void SetLbText(wxString label);
         void enable( bool enabled );
         void setAsToggle( bool isToggle );
         void setBGColour( unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha=wxALPHA_OPAQUE );
-		void setFGColour( unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha=wxALPHA_OPAQUE );
+        void setFGColour( unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha=wxALPHA_OPAQUE );
         void setBDColour( unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha=wxALPHA_OPAQUE );
         void setLEDColour( unsigned char red, unsigned char green, unsigned char blue, unsigned char alpha=wxALPHA_OPAQUE );
         void setStatus( bool on );
         bool getStatus();
 
-		bool focused;
+        bool focused;
 
-	private:
-		void DrawBackground(wxDC &dc);
-		void OnEraseBackground(wxEraseEvent& event);
-		void OnPaint(wxPaintEvent &event);
-		void OnMouse(wxMouseEvent &event);
+    private:
+        void DrawBackground(wxDC &dc);
+        void OnEraseBackground(wxEraseEvent& event);
+        void OnPaint(wxPaintEvent &event);
+        void OnMouse(wxMouseEvent &event);
 
-		bool allowHover;
-		bool allowClick;
-		bool allowFocused;
+        bool allowHover;
+        bool allowClick;
+        bool allowFocused;
 
         bool mIsToggle;
         bool mIsOn;
         bool mIsEnabled;
-		bool hover;
-		bool mClick;
+        bool hover;
+        bool mClick;
 
-		DECLARE_EVENT_TABLE()
+        DECLARE_EVENT_TABLE()
 
         wxString mText;
-		wxSize mSize;
-		int mTotalWidth;
-		int mTotalHeight;
+        wxSize mSize;
+        int mTotalWidth;
+        int mTotalHeight;
 
-		int mLedXStart;
-		int mLedXEnd;
-		int mLedYStart;
-		int mLedYEnd;
+        int mLedXStart;
+        int mLedXEnd;
+        int mLedYStart;
+        int mLedYEnd;
 
-		int mButtonXCentre;
-		int mButtonYCentre;
-		int mToggleXCentre;
-		int mToggleYCentre;
+        int mButtonXCentre;
+        int mButtonYCentre;
+        int mToggleXCentre;
+        int mToggleYCentre;
 
         wxColour* mBGColourTop;
         wxColour* mBGColourBottom;
         wxColour* mFGColour;
         wxColour* mFGColourDisabled;
-		wxColour* mBDColour;
-		wxColour* mLEDColour;
-		wxColour* mLEDColourLow;
-		wxFont    mTextFont;
+        wxColour* mBDColour;
+        wxColour* mLEDColour;
+        wxColour* mLEDColourLow;
+        wxFont    mTextFont;
 };
 
 #endif //GBUTTON_H

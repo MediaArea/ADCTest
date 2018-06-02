@@ -29,10 +29,10 @@ typedef struct ADeviceMap {
 } ADeviceMap;
 
 typedef struct AHostAPIMap {
-	wxString name;
-	int deviceCount;
-	int defaultInIdx;
-	int defaultOutIdx;
+    wxString name;
+    int deviceCount;
+    int defaultInIdx;
+    int defaultOutIdx;
 } AHostAPIMap;
 
 

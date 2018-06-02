@@ -39,7 +39,7 @@ class KFFTWrapper
 
         Window<float> *mFFTWindow;
         float* mWindowedBuffer;
-		float mWindowAvgLevel;
+        float mWindowAvgLevel;
 };
 
 #endif // KFFTWRAPPER_H
