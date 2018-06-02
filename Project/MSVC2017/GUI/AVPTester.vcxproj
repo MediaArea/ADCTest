@@ -1,0 +1,205 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|Win32">
+      <Configuration>Debug</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|Win32">
+      <Configuration>Release</Configuration>
+      <Platform>Win32</Platform>
+    </ProjectConfiguration>  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{EF9B5FFC-C081-4B79-AECA-77D1D55020ED}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <RootNamespace>AVPTester</RootNamespace>
+    <ProjectName>ADCTest</ProjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>true</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <UseDebugLibraries>false</UseDebugLibraries>
+    <PlatformToolset>v141</PlatformToolset>
+    <WholeProgramOptimization>true</WholeProgramOptimization>
+    <CharacterSet>Unicode</CharacterSet>
+    <UseOfMfc>false</UseOfMfc>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="Shared">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <LinkIncremental>true</LinkIncremental>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <LinkIncremental>false</LinkIncremental>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <ClCompile>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <WarningLevel>Level3</WarningLevel>
+      <Optimization>Disabled</Optimization>
+      <PreprocessorDefinitions>WIN32;_DEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>.;..\..\..\..\libsndfile\include;..\..\..\..\portmixer\include;..\..\..\..\portaudio\include;..\..\..\..\portaudio\src\common;..\..\..\..\wxWidgets\lib\vc_lib\mswud;..\..\..\..\wxWidgets\include;..\..\..\src\ThirdParty\kiss-fft;..\..\..\src\ThirdParty\kiss-fft\tools;..\..\..\src\ThirdParty\wxMathPlot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\..\..\portaudio\build\msvc\Win32\Release;..\..\..\..\wxWidgets\lib\vc_lib;$(SolutionDir)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wxmsw31ud_core.lib;wxbase31ud.lib;wxbase31ud_xml.lib;wxmsw31ud_adv.lib;wxtiffd.lib;wxjpegd.lib;wxpngd.lib;wxzlibd.lib;wxregexud.lib;wxexpatd.lib;libsndfile.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;oleacc.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;setupapi.lib;uuid.lib;msvcrtd.lib;winmm.lib;portaudio.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <ResourceCompile>
+      <PreprocessorDefinitions>_DEBUG;_CRT_SECURE_NO_DEPRECATE=1;_CRT_NON_CONFORMING_SWPRINTFS=1;_SCL_SECURE_NO_WARNINGS=1;__WXMSW__;_UNICODE;_WINDOWS;NOPCH;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+    </ResourceCompile>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\wxWidgets\lib\vc_lib\mswud;..\..\..\..\wxWidgets\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <ClCompile>
+      <WarningLevel>Level3</WarningLevel>
+      <PrecompiledHeader>
+      </PrecompiledHeader>
+      <Optimization>MaxSpeed</Optimization>
+      <FunctionLevelLinking>true</FunctionLevelLinking>
+      <IntrinsicFunctions>true</IntrinsicFunctions>
+      <PreprocessorDefinitions>WIN32;NDEBUG;_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <SDLCheck>false</SDLCheck>
+      <AdditionalIncludeDirectories>.;..\..\..\..\libsndfile\include;..\..\..\..\portmixer\include;..\..\..\..\portaudio\include;..\..\..\..\portaudio\src\common;..\..\..\..\wxWidgets\lib\vc_lib\mswu;..\..\..\..\wxWidgets\include;..\..\..\src\ThirdParty\kiss-fft;..\..\..\src\ThirdParty\kiss-fft\tools;..\..\..\src\ThirdParty\wxMathPlot;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+    </ClCompile>
+    <Link>
+      <SubSystem>Windows</SubSystem>
+      <EnableCOMDATFolding>true</EnableCOMDATFolding>
+      <OptimizeReferences>true</OptimizeReferences>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>..\..\..\..\portaudio\build\msvc\Win32\Release;..\..\..\..\wxWidgets\lib\vc_lib;$(SolutionDir)$(Configuration)\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>wxmsw31u_core.lib;wxbase31u.lib;wxbase31u_xml.lib;wxmsw31u_adv.lib;wxtiff.lib;wxjpeg.lib;wxpng.lib;wxzlib.lib;wxregexu.lib;wxexpat.lib;comctl32.lib;rpcrt4.lib;wsock32.lib;winmm.lib;oleacc.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;comdlg32.lib;advapi32.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;msvcrt.lib;setupapi.lib;libsndfile.lib;portaudio.lib</AdditionalDependencies>
+      <IgnoreAllDefaultLibraries>false</IgnoreAllDefaultLibraries>
+      <IgnoreSpecificDefaultLibraries>MSVCRT.LIB</IgnoreSpecificDefaultLibraries>
+      <AdditionalOptions>/FORCE:MULTIPLE %(AdditionalOptions)</AdditionalOptions>
+    </Link>
+    <ResourceCompile>
+      <AdditionalIncludeDirectories>..\..\..\..\wxWidgets\lib\vc_lib\mswu;..\..\..\..\wxWidgets\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <ClCompile Include="..\..\..\src\AboutADCTDialog.cpp" />
+    <ClCompile Include="..\..\..\src\Analysers\Crosstalk.cpp" />
+    <ClCompile Include="..\..\..\src\Analysers\FADGIAnalyser.cpp" />
+    <ClCompile Include="..\..\..\src\Analysers\IMD.cpp" />
+    <ClCompile Include="..\..\..\src\Analysers\SegmentLocator.cpp" />
+    <ClCompile Include="..\..\..\src\Analysers\SpIS.cpp" />
+    <ClCompile Include="..\..\..\src\Analysers\StepsFrequencyResponse.cpp" />
+    <ClCompile Include="..\..\..\src\Analysers\THDNoise.cpp" />
+    <ClCompile Include="..\..\..\src\AudioDevicesDialog.cpp" />
+    <ClCompile Include="..\..\..\src\AudioDevicesPanel.cpp" />
+    <ClCompile Include="..\..\..\src\AudioIO\AudioEngine.cpp" />
+    <ClCompile Include="..\..\..\src\AudioIO\LevelAnalyser.cpp" />
+    <ClCompile Include="..\..\..\src\AudioIO\ParametersQueue.cpp" />
+    <ClCompile Include="..\..\..\src\AVPTesterApp.cpp" />
+    <ClCompile Include="..\..\..\src\AVPTesterMain.cpp" />
+    <ClCompile Include="..\..\..\src\Devices\ADevicesManager.cpp" />
+    <ClCompile Include="..\..\..\src\DSP\adapters\RingBufferFloat.cpp" />
+    <ClCompile Include="..\..\..\src\DSP\FFTAnalyser.cpp" />
+    <ClCompile Include="..\..\..\src\DSP\GenMetricQueue.cpp" />
+    <ClCompile Include="..\..\..\src\DSP\HFFilter.cpp" />
+    <ClCompile Include="..\..\..\src\DSP\KFFTWrapper.cpp" />
+    <ClCompile Include="..\..\..\src\DSP\Utils\MathUtilities.cpp" />
+    <ClCompile Include="..\..\..\src\ThirdParty\kiss-fft\kiss_fft.c" />
+    <ClCompile Include="..\..\..\src\ThirdParty\kiss-fft\tools\kiss_fftr.c" />
+    <ClCompile Include="..\..\..\src\ThirdParty\pa-ringbuffer\pa_ringbuffer.c" />
+    <ClCompile Include="..\..\..\src\ParamEditDialog.cpp" />
+    <ClCompile Include="..\..\..\src\ResultsDialog.cpp" />
+    <ClCompile Include="..\..\..\src\SigGen\AudioFileWriter.cpp" />
+    <ClCompile Include="..\..\..\src\SigGen\DualSineToneGenerator.cpp" />
+    <ClCompile Include="..\..\..\src\SigGen\FADGIGenerator.cpp" />
+    <ClCompile Include="..\..\..\src\SigGen\OctaveToneGenerator.cpp" />
+    <ClCompile Include="..\..\..\src\SigGen\SingleSineToneGenerator.cpp" />
+    <ClCompile Include="..\..\..\src\SigGen\WavFileWriter.cpp" />
+    <ClCompile Include="..\..\..\src\System\Prefs.cpp" />
+    <ClCompile Include="..\..\..\src\TestManager.cpp" />
+    <ClCompile Include="..\..\..\src\Widgets\awohSpin.cpp" />
+    <ClCompile Include="..\..\..\src\Widgets\GButton.cpp" />
+    <ClCompile Include="..\..\..\src\Widgets\RimPanel.cpp" />
+    <ClCompile Include="..\..\..\src\Widgets\VuMeter.cpp" />
+    <ClCompile Include="..\..\..\src\ThirdParty\wxMathPlot\mathplot.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="..\..\..\src\AboutADCTDialog.h" />
+    <ClInclude Include="..\..\..\src\Analysers\Crosstalk.h" />
+    <ClInclude Include="..\..\..\src\Analysers\FADGIAnalyser.h" />
+    <ClInclude Include="..\..\..\src\Analysers\IMD.h" />
+    <ClInclude Include="..\..\..\src\Analysers\SegmentLocator.h" />
+    <ClInclude Include="..\..\..\src\Analysers\SpIS.h" />
+    <ClInclude Include="..\..\..\src\Analysers\StepsFrequencyResponse.h" />
+    <ClInclude Include="..\..\..\src\Analysers\THDNoise.h" />
+    <ClInclude Include="..\..\..\src\AudioDevicesDialog.h" />
+    <ClInclude Include="..\..\..\src\AudioDevicesPanel.h" />
+    <ClInclude Include="..\..\..\src\AudioIO\AudioEngine.h" />
+    <ClInclude Include="..\..\..\src\AudioIO\LevelAnalyser.h" />
+    <ClInclude Include="..\..\..\src\AudioIO\ParametersQueue.h" />
+    <ClInclude Include="..\..\..\src\AudioIO\ProcessParams.h" />
+    <ClInclude Include="..\..\..\src\AVPTesterApp.h" />
+    <ClInclude Include="..\..\..\src\AVPTesterMain.h" />
+    <ClInclude Include="..\..\..\src\Devices\ADevicesManager.h" />
+    <ClInclude Include="..\..\..\src\DSP\adapters\RingBufferFloat.h" />
+    <ClInclude Include="..\..\..\src\DSP\FFTAnalyser.h" />
+    <ClInclude Include="..\..\..\src\DSP\GenMetricQueue.h" />
+    <ClInclude Include="..\..\..\src\DSP\HFFilter.h" />
+    <ClInclude Include="..\..\..\src\DSP\KFFTWrapper.h" />
+    <ClInclude Include="..\..\..\src\ThirdParty\kiss-fft\kissfft.hh" />
+    <ClInclude Include="..\..\..\src\ThirdParty\kiss-fft\kiss_fft.h" />
+    <ClInclude Include="..\..\..\src\ThirdParty\kiss-fft\kiss_fftr.h" />
+    <ClInclude Include="..\..\..\src\ThirdParty\kiss-fft\_kiss_fft_guts.h" />
+    <ClInclude Include="..\..\..\src\DSP\Utils\MathUtilities.h" />
+    <ClInclude Include="..\..\..\src\ThirdParty\pa-ringbuffer\pa_memorybarrier.h" />
+    <ClInclude Include="..\..\..\src\ThirdParty\pa-ringbuffer\pa_ringbuffer.h" />
+    <ClInclude Include="..\..\..\src\DSP\window.h" />
+    <ClInclude Include="..\..\..\src\ParamEditDialog.h" />
+    <ClInclude Include="..\..\..\src\ResultsDialog.h" />
+    <ClInclude Include="..\..\..\src\SigGen\AudioFileWriter.h" />
+    <ClInclude Include="..\..\..\src\SigGen\DualSineToneGenerator.h" />
+    <ClInclude Include="..\..\..\src\SigGen\FADGIGenerator.h" />
+    <ClInclude Include="..\..\..\src\SigGen\OctaveToneGenerator.h" />
+    <ClInclude Include="..\..\..\src\SigGen\SingleSineToneGenerator.h" />
+    <ClInclude Include="..\..\..\src\SigGen\WavFileWriter.h" />
+    <ClInclude Include="..\..\..\src\System\Prefs.h" />
+    <ClInclude Include="..\..\..\src\TestManager.h" />
+    <ClInclude Include="..\..\..\src\Widgets\awohSpin.h" />
+    <ClInclude Include="..\..\..\src\Widgets\GButton.h" />
+    <ClInclude Include="..\..\..\src\Widgets\QPxColours.h" />
+    <ClInclude Include="..\..\..\src\Widgets\RimPanel.h" />
+    <ClInclude Include="..\..\..\src\Widgets\VuMeter.h" />
+    <ClInclude Include="..\..\..\src\ThirdParty\wxMathPlot\mathplot.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ResourceCompile Include="..\..\..\src\resource.rc" />
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+</Project>
