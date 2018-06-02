@@ -1103,7 +1103,7 @@ void AudioDevicesPanel::BuildTestUI()
 
         if (mVuMeterOut)
         {
-            delete mVuMeterOut;
+        //    delete mVuMeterOut;
             mVuMeterOut = NULL;
         }
 

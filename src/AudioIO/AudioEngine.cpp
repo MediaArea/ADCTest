@@ -984,8 +984,10 @@ AudioIO::PlaybackAcquire(wxString signalFile, wxString responseFile)
 
         Pa_Sleep(100);
 
-        while (frameCount < (sndOutFileInfo.frames + recTailSamples))
+        while (frameCount < (sndOutFileInfo.frames + recTailSamples) && bIsStopped == false)
         {
+            mIsSafe = false;
+
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////
             //Playback
             ring_buffer_size_t elementsInOutBuffer = PaUtil_GetRingBufferWriteAvailable(&mPaCallbackData.OutRingBuffer);
@@ -1031,6 +1033,7 @@ AudioIO::PlaybackAcquire(wxString signalFile, wxString responseFile)
     }
 
     bPAIsOpen = false;
+    mIsSafe = true;
 
     return errorCode;
 }

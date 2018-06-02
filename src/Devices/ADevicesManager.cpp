@@ -203,13 +203,15 @@ void ADevicesManager::Rescan()
         //if no host name is in the preferences, then it means that this is the first time the application is started
         // or that something really wrong has occurred.
         //in any case, try to use defaults annd exit.
-        gPrefs->Write(wxT("/AudioIO/AudioHostName"), defaultInDev->hostString);
-        gPrefs->Write(wxT("/AudioIO/InputDevName"), defaultInDev->deviceString);
-        gPrefs->Write(wxT("/AudioIO/InputDevChans"), defaultInDev->numChannels);
-        gPrefs->Write(wxT("/AudioIO/OutputDevName"), defaultOutDev->deviceString);
-        gPrefs->Write(wxT("/AudioIO/OutputDevChans"), defaultOutDev->numChannels);
-        gPrefs->Write(wxT("/AudioIO/AudioSRate"), defaultInDev->defaultRate);
-
+        if (defaultInDev && defaultOutDev)
+        {
+            gPrefs->Write(wxT("/AudioIO/AudioHostName"), defaultInDev->hostString);
+            gPrefs->Write(wxT("/AudioIO/InputDevName"), defaultInDev->deviceString);
+            gPrefs->Write(wxT("/AudioIO/InputDevChans"), defaultInDev->numChannels);
+            gPrefs->Write(wxT("/AudioIO/OutputDevName"), defaultOutDev->deviceString);
+            gPrefs->Write(wxT("/AudioIO/OutputDevChans"), defaultOutDev->numChannels);
+            gPrefs->Write(wxT("/AudioIO/AudioSRate"), defaultInDev->defaultRate);
+        }
         Pa_Terminate();
         m_inited = true;
         return;
