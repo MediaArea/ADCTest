@@ -11,11 +11,12 @@
 
 #include "portaudio.h"
 #include "pa_ringbuffer.h"
-#include "pa_util.h"
 
 #include <wx/thread.h>
 #include <memory>
+#ifdef _WIN32
 #include <malloc.h>
+#endif
 
 #include "LevelAnalyser.h"
 #include "ParametersQueue.h"

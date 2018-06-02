@@ -11,7 +11,9 @@
 #include <wx/fileconf.h>
 #include <wx/filename.h>
 #include <wx/stdpaths.h>
+#ifdef __WXMSW__
 #include <wx/msw/wrapshl.h>
+#endif //__WXMSW__
 #include <wx/filefn.h>
 
 #include "Prefs.h"
@@ -27,11 +29,19 @@ void InitPreferences()
     wxTheApp->SetAppName(appName);
 
     // Default executable directory:
+    #ifdef __WXMSW__
     wxChar fileSeparator('\\');
+    #else
+    wxChar fileSeparator('/');
+    #endif // __WXMSW__
     wxString exePath = wxStandardPaths::Get().GetExecutablePath();
     exePath = exePath.BeforeLast(fileSeparator);
 
+    #ifdef __WXMSW__
     wxString dataFolder = wxStandardPaths::MSWGetShellDir(CSIDL_COMMON_DOCUMENTS);
+    #else
+    wxString dataFolder = wxGetHomeDir();
+    #endif // __WXMSW__
     wxString configFile = wxT("ADCTester.cfg");
     wxFileName configFileName(dataFolder, configFile);
 

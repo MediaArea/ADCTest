@@ -10,7 +10,7 @@
 #include <iostream>
 #include <map>
 #include <wx/wx.h>
-#include "Utils\MathUtilities.h"
+#include "Utils/MathUtilities.h"
 
 enum WindowType {
     RectangularWindow = 0,

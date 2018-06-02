@@ -1,5 +1,5 @@
 #include "AboutADCTDialog.h"
-#include "System\Prefs.h"
+#include "System/Prefs.h"
 
 //(*InternalHeaders(AboutADCTDialog)
 #include <wx/font.h>

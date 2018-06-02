@@ -1,5 +1,5 @@
 #include "ADevicesManager.h"
-#include "..\System\Prefs.h"
+#include "../System/Prefs.h"
 
 ADevicesManager ADevicesManager::dm;
 

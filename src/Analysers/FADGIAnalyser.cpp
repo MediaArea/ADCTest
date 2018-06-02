@@ -17,7 +17,11 @@ FADGIAnalyser::FADGIAnalyser()
 ,mLogDetectionThreshold(0)
 ,mSelectedChannel(-1)
 {
+    #ifdef __WXMSW__
     mSeparator = wxT("\\");
+    #else
+    mSeparator = wxT("/");
+    #endif
     mTestTitle = wxEmptyString;
     mFolderPath = wxEmptyString;
     mResponseFileName = wxEmptyString;

@@ -315,7 +315,11 @@ TestManager::GetSignalFilePath(int testIndex)
     wxString workFolder = GetParameterValue(testIndex, wxT("workfolder"));
     wxString signalFile = GetParameterValue( testIndex, wxT("signalfile" ));
 
+    #ifdef __WXMSW__
     wxString resPath = workFolder + wxT("\\") + signalFile;
+    #else
+    wxString resPath = workFolder + wxT("/") + signalFile;
+    #endif
     return resPath;
 }
 
@@ -325,7 +329,11 @@ TestManager::GetResponseFilePath(int testIndex)
     wxString workFolder = GetParameterValue(testIndex, wxT("workfolder"));
     wxString responseFile = GetParameterValue(testIndex, wxT("responsefile"));
 
+    #ifdef __WXMSW__
     wxString resPath = workFolder + wxT("\\") + responseFile;
+    #else
+    wxString resPath = workFolder + wxT("/") + responseFile;
+    #endif
     return resPath;
 }
 

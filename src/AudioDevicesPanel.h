@@ -7,7 +7,7 @@
 #define AUDIODEVICESPANEL_H
 
 //(*Headers(AudioDevicesPanel)
-#include "Widgets\wxMathPlot\mathplot.h"
+#include <mathplot.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>

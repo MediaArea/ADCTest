@@ -15,6 +15,7 @@
 #include <wx/intl.h>
 #include <wx/image.h>
 #include <wx/string.h>
+#include <wx/stdpaths.h>
 //*)
 
 //helper functions
@@ -30,7 +31,7 @@ wxString wxbuildinfo(wxbuildinfoformat format)
 #if defined(__WXMSW__)
         wxbuild << _T("-Windows");
 #elif defined(__UNIX__)
-        wxbuild << _T("-Linux");
+        wxbuild << _T("-Unix");
 #endif
 
 #if wxUSE_UNICODE
@@ -110,7 +111,11 @@ AVPTesterFrame::AVPTesterFrame(wxWindow* parent,wxWindowID id)
     Create(parent, wxID_ANY, _("ADC Performance Test Tool"), wxDefaultPosition, wxDefaultSize, wxCAPTION|wxCLOSE_BOX, _T("wxID_ANY"));
     {
         wxIcon FrameIcon;
-        FrameIcon.CopyFromBitmap(wxBitmap(wxImage(_T("UI\\favicon.ico"))));
+        #ifdef __WXMSW__
+        FrameIcon.CopyFromBitmap(wxBitmap(wxImage(wxT("UI\\favicon.ico"))));
+        #else
+        FrameIcon.CopyFromBitmap(wxBitmap(wxImage(wxStandardPaths::Get().GetResourcesDir() + wxT("/UI/favicon.png"))));
+        #endif
         SetIcon(FrameIcon);
     }
     BoxSizerFrame = new wxBoxSizer(wxHORIZONTAL);
@@ -119,7 +124,11 @@ AVPTesterFrame::AVPTesterFrame(wxWindow* parent,wxWindowID id)
     PanelMainUI->SetBackgroundColour(wxColour(210,210,210));
     BoxSizerMainUI = new wxBoxSizer(wxVERTICAL);
     BoxSizerLogo = new wxBoxSizer(wxHORIZONTAL);
-    StaticBitmapFADGI = new wxStaticBitmap(PanelMainUI, ID_STATICBITMAP_FADGI, wxBitmap(wxImage(_T("UI\\fadgi.bmp"))), wxDefaultPosition, wxDefaultSize, wxNO_BORDER, _T("ID_STATICBITMAP_FADGI"));
+    #ifdef __WXMSW__
+    StaticBitmapFADGI = new wxStaticBitmap(PanelMainUI, ID_STATICBITMAP_FADGI, wxBitmap(wxImage(wxT("UI\\fadgi.bmp"))), wxDefaultPosition, wxDefaultSize, wxNO_BORDER, _T("ID_STATICBITMAP_FADGI"));
+    #else
+    StaticBitmapFADGI = new wxStaticBitmap(PanelMainUI, ID_STATICBITMAP_FADGI, wxBitmap(wxImage(wxStandardPaths::Get().GetResourcesDir() + wxT("/UI/fadgi.png"))), wxDefaultPosition, wxDefaultSize, wxNO_BORDER, _T("ID_STATICBITMAP_FADGI"));
+    #endif
     BoxSizerLogo->Add(StaticBitmapFADGI, 0, wxBOTTOM|wxALIGN_LEFT|wxALIGN_TOP, 5);
     BoxSizerMainUI->Add(BoxSizerLogo, 0, wxALL|wxEXPAND|wxALIGN_LEFT|wxALIGN_TOP, 0);
     PanelList = new RimPanel(PanelMainUI, ID_PANEL_LIST, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("ID_PANEL_LIST"));
@@ -320,13 +329,20 @@ AVPTesterFrame::AVPTesterFrame(wxWindow* parent,wxWindowID id)
     if (gAudioIO)
         gAudioIO->SetParent(this);
 
-    //SetIcon(wxIcon(_T("UI/favicon.ico"), wxBITMAP_TYPE_ICO) );
-    SetIcon(wxIcon(_T("sycon"), wxBITMAP_TYPE_ICO_RESOURCE));
+    #ifdef __WXMSW__
+    SetIcon(wxIcon(wxT("sycon"), wxBITMAP_TYPE_ICO_RESOURCE));
+    #else
+    SetIcon(wxIcon(wxStandardPaths::Get().GetResourcesDir() + wxT("/UI/appicon.png"), wxBITMAP_TYPE_PNG) );
+    #endif
 
     if (gAudioIO)
     {
         TestManager* tp = gAudioIO->GetTestManager();
+        #ifdef __WXMSW__
         tp->OpenProject(wxT("default.xml"));
+        #else
+        tp->OpenProject(wxStandardPaths::Get().GetResourcesDir() + wxT("/default.xml"));
+        #endif
         PopulateTestsList();
     }
 
@@ -637,7 +653,11 @@ void AVPTesterFrame::OnListViewTestsItemActivated(wxListEvent& event)
     TestManager* tm = gAudioIO->GetTestManager();
     std::vector<TestParameter> params = tm->GetTestParameters(dsc.ID);
 
+    #ifdef __MXMSW__
     wxString wSeparator = wxT("\\");
+    #else
+    wxString wSeparator = wxT("/");
+    #endif
     wxString wFolder=wxEmptyString;
     wxString wFileName = wxEmptyString;
     for (size_t paramIdx = 0; paramIdx < params.size(); paramIdx++)

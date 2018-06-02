@@ -98,7 +98,12 @@ AudioInput::~AudioInput()
     //Dump Devices description to file
 
     wxXmlDocument* mDevicesDoc;
-    wxString filePath = mEnumerationToFilePath + wxT("\\devices.xml");
+    wxString filePath = mEnumerationToFilePath +
+    #ifdef __WXMSW__
+    wxT("\\devices.xml");
+    #else
+    wxT("/devices.xml");
+    #endif
     wxXmlNode* devicesNode = new wxXmlNode(wxXML_ELEMENT_NODE, wxT("AudioDevices"));
     devicesNode->AddChild(mInputDevicesDescriptor);
     devicesNode->AddChild(mOutputDevicesDescriptor);

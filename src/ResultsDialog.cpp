@@ -114,7 +114,7 @@ ResultsDialog::ResultsDialog(wxWindow* parent,wxWindowID id,const wxPoint& pos,c
     Connect(ID_BUTTON_PLOT_RESET, wxEVT_COMMAND_GBUTTON, (wxObjectEventFunction)&ResultsDialog::OnButtonPlotResetClick);
 
     mRTAMagPLot->EnableDoubleBuffer(true);
-    mRTAMagPLot->SetMPScrollbars(false);
+//    mRTAMagPLot->SetMPScrollbars(false);
     mRTAMagPLot->SetColourTheme(wxColor(220, 220, 220), wxColor(128, 64, 64), wxColor(200, 2000, 2000));
     mRTAMagPLot->SetMargins(20, 20, 20, 40);
 }

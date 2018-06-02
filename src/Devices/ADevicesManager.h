@@ -13,7 +13,7 @@
 #include <vector>
 #include "wx/wx.h"
 #include "portaudio.h"
-#include "pa_win_wasapi.h"
+//#include "pa_win_wasapi.h"
 
 typedef struct ADeviceMap {
    int deviceIndex;

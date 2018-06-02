@@ -1,7 +1,7 @@
 #include "AudioEngine.h"
-#include "..\AVPTesterMain.h"
-#include "..\System\Prefs.h"
-#include "..\Devices\ADevicesManager.h"
+#include "../AVPTesterMain.h"
+#include "../System/Prefs.h"
+#include "../Devices/ADevicesManager.h"
 
 
 std::unique_ptr<AudioIO> ugAudioIO;
@@ -824,7 +824,7 @@ AudioIO::OpenDevices(double sampleRate,
 
         size_t numBytes = data->inBufferSizeFrames * data->inBytesPerFrame;
 
-        data->InRingBufferData = (float*)PaUtil_AllocateMemory(numBytes);
+        data->InRingBufferData = (float*)malloc(numBytes);
         int init = PaUtil_InitializeRingBuffer(&data->InRingBuffer, data->inBytesPerFrame, data->inBufferSizeFrames, data->InRingBufferData);
     }
 
@@ -860,7 +860,7 @@ AudioIO::OpenDevices(double sampleRate,
 
         size_t numBytes = data->outBufferSizeFrames * data->outBytesPerFrame;
 
-        data->OutRingBufferData = (float*)PaUtil_AllocateMemory(numBytes);
+        data->OutRingBufferData = (float*)malloc(numBytes);
         memset(data->OutRingBufferData, 0, numBytes);
         int init = PaUtil_InitializeRingBuffer(&data->OutRingBuffer, data->outBytesPerFrame, data->outBufferSizeFrames, data->OutRingBufferData);
         data->initialFillActive = true;

@@ -21,7 +21,7 @@
 //*)
 
 #include "AudioDevicesDialog.h"
-#include "Widgets\GButton.h"
+#include "Widgets/GButton.h"
 #include "TestManager.h"
 #include "ResultsDialog.h"
 #include "ParamEditDialog.h"

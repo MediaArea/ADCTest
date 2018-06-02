@@ -10,7 +10,11 @@ DualSineToneGenerator::DualSineToneGenerator(double sampleRate, int channels)
 ,mSelectedChannelIdx(0)
 {
     //ctor
+    #ifdef __WXMSW__
     mSeparator = wxT("\\");
+    #else
+    mSeparator = wxT("/");
+    #endif
 }
 
 DualSineToneGenerator::~DualSineToneGenerator()

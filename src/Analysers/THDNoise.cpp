@@ -6,7 +6,11 @@
 THDNoise::THDNoise()
 {
     //ctor
+    #ifdef __WXMSW__
     mSeparator = wxT("\\");
+    #else
+    mSeparator = wxT("/");
+    #endif
 }
 
 THDNoise::~THDNoise()

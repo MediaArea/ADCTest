@@ -9,7 +9,7 @@
 
 #include "adapters/RingBufferFloat.h"
 #include "KFFTWrapper.h"
-#include "Window.h"
+#include "window.h"
 #include "GenMetricQueue.h"
 
 struct FFTPlotData {

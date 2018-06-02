@@ -1,8 +1,8 @@
 #include "AudioDevicesPanel.h"
-#include "Devices\ADevicesManager.h"
-#include "System\Prefs.h"
-#include "AudioIO\AudioEngine.h"
-#include "AudioIO\ProcessParams.h"
+#include "Devices/ADevicesManager.h"
+#include "System/Prefs.h"
+#include "AudioIO/AudioEngine.h"
+#include "AudioIO/ProcessParams.h"
 
 //(*InternalHeaders(AudioDevicesPanel)
 #include <wx/intl.h>
@@ -500,7 +500,7 @@ AudioDevicesPanel::AudioDevicesPanel(wxWindow* parent,wxWindowID id,const wxPoin
     mVuMeterOut = NULL;
 
     mRTAMagPLot->EnableDoubleBuffer(true);
-    mRTAMagPLot->SetMPScrollbars(false);
+    //mRTAMagPLot->SetMPScrollbars(false);
     mRTAMagPLot->SetColourTheme(wxColor( 220,220, 220), wxColor( 128, 64, 64 ), wxColor(200,2000,2000));
     mRTAMagPLot->SetMargins(20, 20, 20, 40);
 

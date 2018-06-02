@@ -10,16 +10,16 @@
 #include <wx/xml/xml.h>
 #include <vector>
 
-#include "SigGen\OctaveToneGenerator.h"
-#include "SigGen\SingleSineToneGenerator.h"
-#include "SigGen\DualSineToneGenerator.h"
+#include "SigGen/OctaveToneGenerator.h"
+#include "SigGen/SingleSineToneGenerator.h"
+#include "SigGen/DualSineToneGenerator.h"
 
-#include "Analysers\StepsFrequencyResponse.h"
-#include "Analysers\THDNoise.h"
-#include "Analysers\Crosstalk.h"
-#include "Analysers\IMD.h"
-#include "Analysers\SpIS.h"
-#include "Analysers\FADGIAnalyser.h"
+#include "Analysers/StepsFrequencyResponse.h"
+#include "Analysers/THDNoise.h"
+#include "Analysers/Crosstalk.h"
+#include "Analysers/IMD.h"
+#include "Analysers/SpIS.h"
+#include "Analysers/FADGIAnalyser.h"
 
 enum TestType{
     ADCFullTest = 0,

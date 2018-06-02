@@ -217,7 +217,11 @@ void ParamEditDialog::OnButtonPathClick(wxCommandEvent& event)
     {
         wxString fileName = openFileDlg.GetFilename();
         wxString fileFullPath = openFileDlg.GetPath();
+        #ifdef __WXMSW__
         wxString fileFolder = fileFullPath.BeforeLast(wxT('\\'));
+        #else
+        wxString fileFolder = fileFullPath.BeforeLast(wxT('/'));
+        #endif
 
         TestManager* tp = gAudioIO->GetTestManager();
         wxString workFolder = tp->GetParameterValue(mTestIndex, wxT("workfolder"));

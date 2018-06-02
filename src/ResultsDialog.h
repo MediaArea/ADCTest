@@ -7,7 +7,7 @@
 #define RESULTSDIALOG_H
 
 //(*Headers(ResultsDialog)
-#include "Widgets\wxMathPlot\mathplot.h"
+#include <mathplot.h>
 #include <wx/sizer.h>
 #include <wx/stattext.h>
 #include <wx/textctrl.h>
@@ -19,7 +19,7 @@
 #include <wx/xml/xml.h>
 #include "Widgets/RimPanel.h"
 #include "Widgets/GButton.h"
-#include "Analysers\StepsFrequencyResponse.h"
+#include "Analysers/StepsFrequencyResponse.h"
 
 
 class ResultsDialog: public wxDialog
