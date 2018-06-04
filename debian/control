@@ -1,0 +1,27 @@
+Source: adctest
+Priority: optional
+Section: utils
+Maintainer: MediaArea.net SARL <info@mediaarea.net>
+Build-Depends: debhelper (>= 9), dh-autoreconf, pkg-config, libsndfile-dev, portaudio-dev, libwxgtk3.0-dev
+Standards-Version: 3.9.6
+Homepage: http://MediaArea.net/ADCTest
+Vcs-Git: https://github.com/MediaArea/ADCTest.git
+Vcs-Browser: https://github.com/MediaArea/ADCTest
+
+Package: adctest
+Architecture: any
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: Analog-digital converter performance testing tool
+ MediaInfo is a utility used for retrieving technical information and other
+ metadata about audio or video files.
+ .
+ (To be filled)
+
+Package: adctest-dbg
+Architecture: any
+Section: debug
+Priority: extra
+Depends: adctest (= ${binary:Version}), ${misc:Depends}
+Description: Analog-digital converter performance testing tool
+ .
+ This package contains the debugging symbols.

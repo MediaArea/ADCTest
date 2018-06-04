@@ -14,7 +14,7 @@ public:
 
     int getSize() const { return m_size-1; }
 
-	void reset();
+    void reset();
 
     int getReadSpace();
 

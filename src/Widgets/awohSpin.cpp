@@ -19,55 +19,55 @@ IMPLEMENT_DYNAMIC_CLASS(awohSpinEvent, wxCommandEvent)  // RTTI
 
 ///////////////////////////////////////////////////////////
 awohSpinEvent::awohSpinEvent(wxEventType commandType, int id)
-		: wxCommandEvent(commandType, id)
+        : wxCommandEvent(commandType, id)
 {
 }
 
 BEGIN_EVENT_TABLE(awohSpin,wxPanel)
-	//(*EventTable(awohSpin)
-	//*)
+    //(*EventTable(awohSpin)
+    //*)
 END_EVENT_TABLE()
 
 awohSpin::awohSpin(wxWindow* parent,wxWindowID id,const wxPoint& pos,const wxSize& size)
 :mSize(size)
 {
-	//(*Initialize(awohSpin)
-	wxBoxSizer* BoxSizerMainSpin;
+    //(*Initialize(awohSpin)
+    wxBoxSizer* BoxSizerMainSpin;
 
-	Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
-	BoxSizerMainSpin = new wxBoxSizer(wxHORIZONTAL);
-	ButtonMinus = new GButton(this, ID_BUTTON_MINUS, _("<"), wxDefaultPosition, wxSize(18,18), wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_BUTTON_MINUS"));
-	wxFont ButtonMinusFont(12,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Calibri"),wxFONTENCODING_DEFAULT);
-	ButtonMinus->SetFont(ButtonMinusFont);
-	BoxSizerMainSpin->Add(ButtonMinus, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	StaticTextValue = new wxStaticText(this, ID_STATICTEXT_VALUE, _("---"), wxDefaultPosition, size, wxALIGN_CENTRE|wxNO_BORDER, _T("ID_STATICTEXT_VALUE"));
-	wxFont StaticTextValueFont(10,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Calibri"),wxFONTENCODING_DEFAULT);
-	StaticTextValue->SetFont(StaticTextValueFont);
-	BoxSizerMainSpin->Add(StaticTextValue, 1, wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 3);
-	ButtonPlus = new GButton(this, ID_BUTTON_PLUS, _(">"), wxDefaultPosition, wxSize(18,18), wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_BUTTON_PLUS"));
-	wxFont ButtonPlusFont(12,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Calibri"),wxFONTENCODING_DEFAULT);
-	ButtonPlus->SetFont(ButtonPlusFont);
-	BoxSizerMainSpin->Add(ButtonPlus, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
-	SetSizer(BoxSizerMainSpin);
-	BoxSizerMainSpin->Fit(this);
-	BoxSizerMainSpin->SetSizeHints(this);
-	//*)
+    Create(parent, id, wxDefaultPosition, wxDefaultSize, wxTAB_TRAVERSAL, _T("id"));
+    BoxSizerMainSpin = new wxBoxSizer(wxHORIZONTAL);
+    ButtonMinus = new GButton(this, ID_BUTTON_MINUS, _("<"), wxDefaultPosition, wxSize(18,18), wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_BUTTON_MINUS"));
+    wxFont ButtonMinusFont(12,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Calibri"),wxFONTENCODING_DEFAULT);
+    ButtonMinus->SetFont(ButtonMinusFont);
+    BoxSizerMainSpin->Add(ButtonMinus, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    StaticTextValue = new wxStaticText(this, ID_STATICTEXT_VALUE, _("---"), wxDefaultPosition, size, wxALIGN_CENTRE|wxNO_BORDER, _T("ID_STATICTEXT_VALUE"));
+    wxFont StaticTextValueFont(10,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Calibri"),wxFONTENCODING_DEFAULT);
+    StaticTextValue->SetFont(StaticTextValueFont);
+    BoxSizerMainSpin->Add(StaticTextValue, 1, wxLEFT|wxRIGHT|wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 3);
+    ButtonPlus = new GButton(this, ID_BUTTON_PLUS, _(">"), wxDefaultPosition, wxSize(18,18), wxNO_BORDER|wxTRANSPARENT_WINDOW, wxDefaultValidator, _T("ID_BUTTON_PLUS"));
+    wxFont ButtonPlusFont(12,wxSWISS,wxFONTSTYLE_NORMAL,wxBOLD,false,_T("Calibri"),wxFONTENCODING_DEFAULT);
+    ButtonPlus->SetFont(ButtonPlusFont);
+    BoxSizerMainSpin->Add(ButtonPlus, 0, wxALIGN_CENTER_HORIZONTAL|wxALIGN_CENTER_VERTICAL, 5);
+    SetSizer(BoxSizerMainSpin);
+    BoxSizerMainSpin->Fit(this);
+    BoxSizerMainSpin->SetSizeHints(this);
+    //*)
     //StaticTextValue = new wxStaticText(this, ID_STATICTEXT_VALUE, _("---"), wxDefaultPosition, wxDefaultSize, wxALIGN_CENTRE|wxNO_BORDER, _T("ID_STATICTEXT_VALUE"));
-	Connect(ID_BUTTON_MINUS,wxEVT_COMMAND_GBUTTON,(wxObjectEventFunction)&awohSpin::OnButtonMinusClick);
-	Connect(ID_BUTTON_PLUS,wxEVT_COMMAND_GBUTTON,(wxObjectEventFunction)&awohSpin::OnButtonPlusClick);
+    Connect(ID_BUTTON_MINUS,wxEVT_COMMAND_GBUTTON,(wxObjectEventFunction)&awohSpin::OnButtonMinusClick);
+    Connect(ID_BUTTON_PLUS,wxEVT_COMMAND_GBUTTON,(wxObjectEventFunction)&awohSpin::OnButtonPlusClick);
     ButtonPlus->setAsToggle(false);
     ButtonMinus->setAsToggle(false);
 
     StaticTextValue->SetSize(mSize);
     Layout();
 
-	mValueIndex = 0;
+    mValueIndex = 0;
 }
 
 awohSpin::~awohSpin()
 {
-	//(*Destroy(awohSpin)
-	//*)
+    //(*Destroy(awohSpin)
+    //*)
 }
 
 void

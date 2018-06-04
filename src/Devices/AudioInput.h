@@ -7,7 +7,7 @@
 #define AUDIOINPUT_H
 
 #include <wx/wx.h>
-#include "portaudio19/portaudio.h"
+#include "portaudio.h"
 #include "sndfile.h"
 #include "LevelAnalyser.h"
 #include <wx/xml/xml.h>

@@ -21,14 +21,14 @@
 //*)
 
 #include "AudioDevicesDialog.h"
-#include "Widgets\GButton.h"
+#include "Widgets/GButton.h"
 #include "TestManager.h"
 #include "ResultsDialog.h"
 #include "ParamEditDialog.h"
 
 //threads ID
 enum {
-	AUDIOT_EVENT = wxID_HIGHEST + 1
+    AUDIOT_EVENT = wxID_HIGHEST + 1
 };
 
 class AVPTesterFrame: public wxFrame
@@ -38,12 +38,12 @@ class AVPTesterFrame: public wxFrame
         AVPTesterFrame(wxWindow* parent,wxWindowID id = -1);
         virtual ~AVPTesterFrame();
 
-		void BuildUI();
+        void BuildUI();
 
     private:
 
-		bool wxViewPDFFile(const wxString& pdfFile, const wxString& specificErrorMessage = wxEmptyString);
-		bool wxSeparateCommandAndArguments(const wxString& command, wxString& cmd, wxString& args);
+        bool wxViewPDFFile(const wxString& pdfFile, const wxString& specificErrorMessage = wxEmptyString);
+        bool wxSeparateCommandAndArguments(const wxString& command, wxString& cmd, wxString& args);
 
         //(*Handlers(AVPTesterFrame)
         void OnQuit(wxCommandEvent& event);
@@ -60,14 +60,14 @@ class AVPTesterFrame: public wxFrame
         void OnMenuItemFSaveSelected(wxCommandEvent& event);
         void OnButtonDoSingleTestClick(wxCommandEvent& event);
         //*)
-		void OnTestMenuPopupClick(wxCommandEvent &evt);
+        void OnTestMenuPopupClick(wxCommandEvent &evt);
 
-		void OnAudioThreadEvent(wxThreadEvent& event);
-		void PopulateTestsList();
-		void PopulateTestParametersList();
-		void EnableTestUI(bool enabled);
+        void OnAudioThreadEvent(wxThreadEvent& event);
+        void PopulateTestsList();
+        void PopulateTestParametersList();
+        void EnableTestUI(bool enabled);
 
-		void WriteLogMsg(wxString msg);
+        void WriteLogMsg(wxString msg);
 
         //(*Identifiers(AVPTesterFrame)
         static const long ID_STATICBITMAP_FADGI;
@@ -139,20 +139,20 @@ class AVPTesterFrame: public wxFrame
         wxMenuItem* MenuItemFOpen;
         //*)
 
-		AudioDevicesDialog* mADevicesDialog;
-		ResultsDialog* mResultsDialog;
-		ParamEditDialog* mParamDialog;
+        AudioDevicesDialog* mADevicesDialog;
+        ResultsDialog* mResultsDialog;
+        ParamEditDialog* mParamDialog;
 
         DECLARE_EVENT_TABLE()
 
-		int mSelectedTestIdx;
-		std::vector<TestDescriptor> mTestDescriptors;
-		int mSelectedParamIdx;
-		std::vector<TestParameter> mParametersDescriptors;
+        int mSelectedTestIdx;
+        std::vector<TestDescriptor> mTestDescriptors;
+        int mSelectedParamIdx;
+        std::vector<TestParameter> mParametersDescriptors;
 
-		bool mTestOn;
-		bool mTestIsRunning;
-		wxString mLogMsg;
+        bool mTestOn;
+        bool mTestIsRunning;
+        wxString mLogMsg;
 };
 
 #endif // AVPTESTERMAIN_H

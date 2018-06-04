@@ -1,0 +1,10 @@
+[Desktop Entry]
+Type=Application
+Version=1.0
+Name=ADCTest
+Comment=Analog-digital converter performance testing tool
+Icon=adctest
+Exec=adctest
+Terminal=false
+Categories=AudioVideo;
+Keywords=audio;

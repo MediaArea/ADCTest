@@ -15,39 +15,39 @@
 class DualSineToneGenerator
 {
     public:
-		DualSineToneGenerator(double sampleRate, int channels);
+        DualSineToneGenerator(double sampleRate, int channels);
         virtual ~DualSineToneGenerator();
 
-		bool generateSignal(wxXmlNode* parameters);
+        bool generateSignal(wxXmlNode* parameters);
 
-	protected:
-		void setParameters( wxXmlNode* paramsNode );
-		bool writeSignalFile();
+    protected:
+        void setParameters( wxXmlNode* paramsNode );
+        bool writeSignalFile();
 
     protected:
         wxXmlNode* mParamsNode;
         double mSampleRate;
-		int mNoChannels;
-		wxString mFolderPath;
-		wxString mFileName;
-		wxString mFilePath;
+        int mNoChannels;
+        wxString mFolderPath;
+        wxString mFileName;
+        wxString mFilePath;
 
     private:
-		int mSelectedChannelIdx;
+        int mSelectedChannelIdx;
 
-		size_t mFFTLength;
-		size_t mFFTAverages;
+        size_t mFFTLength;
+        size_t mFFTAverages;
 
-		double mIntegrationTime;
-		double mTransientTime;
-		double mBurstIntervalTime;
-		
-		double mSignalFrequency1;
-		double mSignalFrequency2;
-		double mLevelRatio;
-		double mSignalLevel;
+        double mIntegrationTime;
+        double mTransientTime;
+        double mBurstIntervalTime;
 
-		wxString mSeparator;
+        double mSignalFrequency1;
+        double mSignalFrequency2;
+        double mLevelRatio;
+        double mSignalLevel;
+
+        wxString mSeparator;
 };
 
 #endif // DUALSINETONEGENERATOR_H

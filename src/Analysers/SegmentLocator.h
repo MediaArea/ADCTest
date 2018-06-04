@@ -13,41 +13,41 @@
 #include "../DSP/HFFilter.h"
 
 typedef struct Segment {
-	size_t start;
-	size_t end;
-	double peakValue;
+    size_t start;
+    size_t end;
+    double peakValue;
 }Segment;
 
 class SegmentLocator
 {
 public:
-	SegmentLocator( size_t sampleRate, size_t noChannels );
-	virtual ~SegmentLocator();
-	
-	void SetDetectionParameters(float threshold_dB);
-	void SetLPFilterparameters( float frequency, float slope);
+    SegmentLocator( size_t sampleRate, size_t noChannels );
+    virtual ~SegmentLocator();
 
-	void Reset();
-	int ProcesSignal(float* signal, int channelIdx, size_t frameLength);
+    void SetDetectionParameters(float threshold_dB);
+    void SetLPFilterparameters( float frequency, float slope);
 
-	std::vector<Segment> GetSegments();
-	std::vector<size_t> GetOnsets();
+    void Reset();
+    int ProcesSignal(float* signal, int channelIdx, size_t frameLength);
+
+    std::vector<Segment> GetSegments();
+    std::vector<size_t> GetOnsets();
 
 protected:
-	size_t mSampleRate;
-	size_t mNoChannels;
+    size_t mSampleRate;
+    size_t mNoChannels;
 
-	HFFilter* mLPFilter;
-	float mLPFrequency;
-	float mLPSlope;
+    HFFilter* mLPFilter;
+    float mLPFrequency;
+    float mLPSlope;
 
-	float mThresholdLinear;
+    float mThresholdLinear;
 
-	std::vector<Segment> mSegments;
-	std::vector<size_t> mOnsets;
+    std::vector<Segment> mSegments;
+    std::vector<size_t> mOnsets;
 
-	bool mSignalDetected;
-	size_t mSignalCount;
-	size_t mDetectionGate;
+    bool mSignalDetected;
+    size_t mSignalCount;
+    size_t mDetectionGate;
 };
 

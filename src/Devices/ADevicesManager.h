@@ -13,7 +13,7 @@
 #include <vector>
 #include "wx/wx.h"
 #include "portaudio.h"
-#include "pa_win_wasapi.h"
+//#include "pa_win_wasapi.h"
 
 typedef struct ADeviceMap {
    int deviceIndex;
@@ -29,10 +29,10 @@ typedef struct ADeviceMap {
 } ADeviceMap;
 
 typedef struct AHostAPIMap {
-	wxString name;
-	int deviceCount;
-	int defaultInIdx;
-	int defaultOutIdx;
+    wxString name;
+    int deviceCount;
+    int defaultInIdx;
+    int defaultOutIdx;
 } AHostAPIMap;
 
 

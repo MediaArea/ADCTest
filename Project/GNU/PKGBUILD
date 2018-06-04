@@ -1,0 +1,30 @@
+# $Id$
+# Maintainer: MediaArea.net SARL <info@mediaarea.net>
+
+pkgname=('adctest')
+pkgver=110
+pkgrel=1
+pkgdesc="Analog-digital converter performance testing tool"
+url="http://mediaarea.net/ADCTest"
+license=('GPL')
+source=(${pkgname}_${pkgver}.orig.tar.xz)
+md5sums=('00000000000000000000000000000000')
+arch=('i686' 'x86_64')
+
+depends=('wxgtk' 'libsndfile' 'portaudio')
+
+prepare() {
+    cd "${srcdir}"/ADCTest/Project/GNU/GUI
+    sh ./autogen.sh
+    ./configure --prefix=/usr
+}
+
+build() {
+    cd "${srcdir}"/ADCTest/Project/GNU/GUI
+    make
+}
+
+package() {
+    cd "${srcdir}"/ADCTest/Project/GNU/GUI
+    make DESTDIR="${pkgdir}" install
+}

@@ -34,9 +34,9 @@ void MathUtilities::getAlphaNorm(const double *data, size_t len, size_t alpha, d
 
     for( i = 0; i < len; i++)
     {
-	temp = data[ i ];
+    temp = data[ i ];
 
-	a  += ::pow( fabs(temp), alpha );
+    a  += ::pow( fabs(temp), alpha );
     }
     a /= ( double )len;
     a = ::pow( a, ( 1.0 / (double) alpha ) );
@@ -46,28 +46,28 @@ void MathUtilities::getAlphaNorm(const double *data, size_t len, size_t alpha, d
 
 void MathUtilities::getMinAlphaNormRealPosIn(double *pData, size_t uLen, size_t alpha, double &Min, double &ANorm)
 {
-	size_t i;
-	double temp = 0.0;
-	double a=0.0;
+    size_t i;
+    double temp = 0.0;
+    double a=0.0;
 
-	double m= pData[0];
+    double m= pData[0];
 
-	for( i = 0; i < uLen; i++)
-	{
-		temp = pData[ i ];
+    for( i = 0; i < uLen; i++)
+    {
+        temp = pData[ i ];
 
-		if( temp < m )
-		{
-			m =  temp ;
-		}
+        if( temp < m )
+        {
+            m =  temp ;
+        }
 
-		a  += powf( temp, alpha );
-   	}
-	a /= ( double )uLen;
-	a = pow( a, ( 1.0 / (double) alpha ) );
+        a  += powf( temp, alpha );
+       }
+    a /= ( double )uLen;
+    a = pow( a, ( 1.0 / (double) alpha ) );
 
-	Min = m;
-	ANorm = a;
+    Min = m;
+    ANorm = a;
 }
 
 double MathUtilities::getAlphaNorm( const std::vector <double> &data, size_t alpha )
@@ -79,9 +79,9 @@ double MathUtilities::getAlphaNorm( const std::vector <double> &data, size_t alp
 
     for( i = 0; i < len; i++)
     {
-	temp = data[ i ];
+    temp = data[ i ];
 
-	a  += ::pow( fabs(temp), alpha );
+    a  += ::pow( fabs(temp), alpha );
     }
     a /= ( double )len;
     a = ::pow( a, ( 1.0 / (double) alpha ) );
@@ -108,32 +108,32 @@ double MathUtilities::median( const std::vector<double> &src )
 
     for ( i = 0; i < dataLen; i++ )
     {
-	scratch[i] = src[i];
+    scratch[i] = src[i];
     }
 
     for ( i = 0; i < dataLen - 1; i++ )
     {
-	for ( j = 0; j < dataLen - 1 - i; j++ )
-	{
-	    if ( scratch[j + 1] < scratch[j] )
-	    {
-		// compare the two neighbors
-		tmp = scratch[j]; // swap a[j] and a[j+1]
-		scratch[j] = scratch[j + 1];
-		scratch[j + 1] = tmp;
-	    }
-	}
+    for ( j = 0; j < dataLen - 1 - i; j++ )
+    {
+        if ( scratch[j + 1] < scratch[j] )
+        {
+        // compare the two neighbors
+        tmp = scratch[j]; // swap a[j] and a[j+1]
+        scratch[j] = scratch[j + 1];
+        scratch[j + 1] = tmp;
+        }
+    }
     }
     int middle;
     if ( dataLen % 2 == 0 )
     {
-	middle = dataLen / 2;
-	tempMedian = ( scratch[middle] + scratch[middle - 1] ) / 2;
+    middle = dataLen / 2;
+    tempMedian = ( scratch[middle] + scratch[middle - 1] ) / 2;
     }
     else
     {
-	middle = ( int )floor( dataLen / 2.0 );
-	tempMedian = scratch[middle];
+    middle = ( int )floor( dataLen / 2.0 );
+    tempMedian = scratch[middle];
     }
 
     medianVal = tempMedian;
@@ -153,32 +153,32 @@ double MathUtilities::median(const double *src, size_t len)
 
     for ( i = 0; i < len; i++ )
     {
-	scratch[i] = src[i];
+    scratch[i] = src[i];
     }
 
     for ( i = 0; i < len - 1; i++ )
     {
-	for ( j = 0; j < len - 1 - i; j++ )
-	{
-	    if ( scratch[j + 1] < scratch[j] )
-	    {
-		// compare the two neighbors
-		tmp = scratch[j]; // swap a[j] and a[j+1]
-		scratch[j] = scratch[j + 1];
-		scratch[j + 1] = tmp;
-	    }
-	}
+    for ( j = 0; j < len - 1 - i; j++ )
+    {
+        if ( scratch[j + 1] < scratch[j] )
+        {
+        // compare the two neighbors
+        tmp = scratch[j]; // swap a[j] and a[j+1]
+        scratch[j] = scratch[j + 1];
+        scratch[j + 1] = tmp;
+        }
+    }
     }
     int middle;
     if ( len % 2 == 0 )
     {
-	middle = len / 2;
-	tempMedian = ( scratch[middle] + scratch[middle - 1] ) / 2;
+    middle = len / 2;
+    tempMedian = ( scratch[middle] + scratch[middle - 1] ) / 2;
     }
     else
     {
-	middle = ( int )floor( len / 2.0 );
-	tempMedian = scratch[middle];
+    middle = ( int )floor( len / 2.0 );
+    tempMedian = scratch[middle];
     }
 
     medianVal = tempMedian;
@@ -194,7 +194,7 @@ double MathUtilities::sum(const double *src, size_t len)
 
     for(  i = 0; i < len; i++)
     {
-		retVal += src[ i ];
+        retVal += src[ i ];
     }
 
     return retVal;
@@ -240,138 +240,138 @@ void MathUtilities::getFrameMinMax(const double *data, size_t len, double *min, 
 
     for( i = 0; i < len; i++)
     {
-		temp = data[ i ];
+        temp = data[ i ];
 
-		if( temp < *min )
-		{
-			*min =  temp ;
-		}
-		if( temp > *max )
-		{
-			*max =  temp ;
-		}
+        if( temp < *min )
+        {
+            *min =  temp ;
+        }
+        if( temp > *max )
+        {
+            *max =  temp ;
+        }
     }
 }
 
 void MathUtilities::getFrameMinMax(const float *data, size_t len, float *min, float *max)
 {
-	size_t i;
-	float temp = 0.0;
+    size_t i;
+    float temp = 0.0;
 
-	if (len == 0) {
-		*min = *max = 0;
-		return;
-	}
+    if (len == 0) {
+        *min = *max = 0;
+        return;
+    }
 
-	*min = data[0];
-	*max = data[0];
+    *min = data[0];
+    *max = data[0];
 
-	for (i = 0; i < len; i++)
-	{
-		temp = data[i];
+    for (i = 0; i < len; i++)
+    {
+        temp = data[i];
 
-		if (temp < *min)
-		{
-			*min = temp;
-		}
-		if (temp > *max)
-		{
-			*max = temp;
-		}
-	}
+        if (temp < *min)
+        {
+            *min = temp;
+        }
+        if (temp > *max)
+        {
+            *max = temp;
+        }
+    }
 }
 
 int MathUtilities::getMax( double* pData, size_t Length, double* pMax )
 {
-	size_t index = 0;
-	size_t i;
-	double temp = 0.0;
+    size_t index = 0;
+    size_t i;
+    double temp = 0.0;
 
-	double max = pData[0];
+    double max = pData[0];
 
-	for( i = 0; i < Length; i++)
-	{
-		temp = pData[ i ];
+    for( i = 0; i < Length; i++)
+    {
+        temp = pData[ i ];
 
-		if( temp > max )
-		{
-			max =  temp ;
-			index = i;
-		}
+        if( temp > max )
+        {
+            max =  temp ;
+            index = i;
+        }
 
-   	}
+       }
 
-	if (pMax) *pMax = max;
+    if (pMax) *pMax = max;
 
 
-	return index;
+    return index;
 }
 
 int MathUtilities::getMax(float* pData, size_t Length, float* pMax)
 {
-	size_t index = 0;
-	size_t i;
-	float temp = 0.0;
+    size_t index = 0;
+    size_t i;
+    float temp = 0.0;
 
-	float max = pData[0];
+    float max = pData[0];
 
-	for (i = 0; i < Length; i++)
-	{
-		temp = pData[i];
+    for (i = 0; i < Length; i++)
+    {
+        temp = pData[i];
 
-		if (temp > max)
-		{
-			max = temp;
-			index = i;
-		}
+        if (temp > max)
+        {
+            max = temp;
+            index = i;
+        }
 
-	}
+    }
 
-	if (pMax) *pMax = max;
+    if (pMax) *pMax = max;
 
 
-	return index;
+    return index;
 }
 
 int MathUtilities::getMax( const std::vector<double> & data, double* pMax )
 {
-	size_t index = 0;
-	size_t i;
-	double temp = 0.0;
+    size_t index = 0;
+    size_t i;
+    double temp = 0.0;
 
-	double max = data[0];
+    double max = data[0];
 
-	for( i = 0; i < data.size(); i++)
-	{
-		temp = data[ i ];
+    for( i = 0; i < data.size(); i++)
+    {
+        temp = data[ i ];
 
-		if( temp > max )
-		{
-			max =  temp ;
-			index = i;
-		}
+        if( temp > max )
+        {
+            max =  temp ;
+            index = i;
+        }
 
-   	}
+       }
 
-	if (pMax) *pMax = max;
+    if (pMax) *pMax = max;
 
-	return index;
+    return index;
 }
 
 void MathUtilities::circShift( double* pData, int length, int shift)
 {
-	shift = shift % length;
-	double temp;
-	int i,n;
+    shift = shift % length;
+    double temp;
+    int i,n;
 
-	for( i = 0; i < shift; i++)
-	{
-		temp=*(pData + length - 1);
+    for( i = 0; i < shift; i++)
+    {
+        temp=*(pData + length - 1);
 
-		for( n = length-2; n >= 0; n--)
-		{
-			*(pData+n+1)=*(pData+n);
-		}
+        for( n = length-2; n >= 0; n--)
+        {
+            *(pData+n+1)=*(pData+n);
+        }
 
         *pData = temp;
     }
@@ -691,57 +691,57 @@ MathUtilities::getFrameZeroCrossings( const double* data, size_t len )
     return zc;
 }
 
-double 
+double
 MathUtilities::bessel_i0(double x)
 {
-	double y = 1.0, s = 1.0, x2 = x*x;
-	int n = 1;
-	while (s > y*1.0e-9)
-		{
-		s *= x2 / 4.0 / (n*n);
-		y += s;
-		n++;
-	}
-	return y;
+    double y = 1.0, s = 1.0, x2 = x*x;
+    int n = 1;
+    while (s > y*1.0e-9)
+        {
+        s *= x2 / 4.0 / (n*n);
+        y += s;
+        n++;
+    }
+    return y;
 }
 
-std::vector<double> 
+std::vector<double>
 MathUtilities::calculateOctaveFreqs(double startFreq,
-	double stopFreq,
-	double baseFreq,
-	int stepsPerOctave,
-	double offset)
+    double stopFreq,
+    double baseFreq,
+    int stepsPerOctave,
+    double offset)
 {
-	std::vector<double> freqs;
+    std::vector<double> freqs;
 
-	int lowOct = -6 * stepsPerOctave;
-	int hiOct = 6 * stepsPerOctave;
-	double fc = 0;
-	double lastFreq = 0;
-	for (int i = lowOct; i < hiOct; i++)
-	{
-		fc = ceil(baseFreq*(pow(2, (double)i / (double)stepsPerOctave)));
-		
-		//if ((fc >= startFreq- startFreq/10.0) && (fc <= stopFreq + stopFreq/10.0))
-		if ((fc >= startFreq) && (fc <= stopFreq))
-		{
-			if (fc > 1e3)
-			{
-				fc = 10.0 * ceil(fc / 10.0) + offset;
-			}
+    int lowOct = -6 * stepsPerOctave;
+    int hiOct = 6 * stepsPerOctave;
+    double fc = 0;
+    double lastFreq = 0;
+    for (int i = lowOct; i < hiOct; i++)
+    {
+        fc = ceil(baseFreq*(pow(2, (double)i / (double)stepsPerOctave)));
 
-			if (fc > 10e3)
-			{
-				fc = 100.0 * ceil(fc / 100.0) + 10.0*offset;
-			}
-			fprintf(stderr, "%g\t", fc);
-			freqs.push_back(fc);
-			lastFreq = fc;
-		}
-	}
+        //if ((fc >= startFreq- startFreq/10.0) && (fc <= stopFreq + stopFreq/10.0))
+        if ((fc >= startFreq) && (fc <= stopFreq))
+        {
+            if (fc > 1e3)
+            {
+                fc = 10.0 * ceil(fc / 10.0) + offset;
+            }
 
-	if (lastFreq < stopFreq)
-		freqs.push_back(stopFreq);
+            if (fc > 10e3)
+            {
+                fc = 100.0 * ceil(fc / 100.0) + 10.0*offset;
+            }
+            fprintf(stderr, "%g\t", fc);
+            freqs.push_back(fc);
+            lastFreq = fc;
+        }
+    }
 
-	return freqs;
+    if (lastFreq < stopFreq)
+        freqs.push_back(stopFreq);
+
+    return freqs;
 }

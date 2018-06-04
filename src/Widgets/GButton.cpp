@@ -12,15 +12,15 @@ IMPLEMENT_DYNAMIC_CLASS(GButtonEvent, wxCommandEvent)  // RTTI
 
 ///////////////////////////////////////////////////////////
 GButtonEvent::GButtonEvent(wxEventType commandType, int id)
-		: wxCommandEvent(commandType, id)
+        : wxCommandEvent(commandType, id)
 {
 }
 
 ////////////////////////////////////
 BEGIN_EVENT_TABLE(GButton, wxPanel)
-	EVT_PAINT  (GButton::OnPaint)
-	EVT_MOUSE_EVENTS (GButton::OnMouse)
-	EVT_ERASE_BACKGROUND(GButton::OnEraseBackground)
+    EVT_PAINT  (GButton::OnPaint)
+    EVT_MOUSE_EVENTS (GButton::OnMouse)
+    EVT_ERASE_BACKGROUND(GButton::OnEraseBackground)
 END_EVENT_TABLE()
 
 ///////////////////
@@ -42,12 +42,12 @@ GButton::GButton(wxWindow *parent,
 {
     mText = label;
     SetBackgroundStyle(wxBG_STYLE_CUSTOM);
-	(void)Create(parent, id, pos, size, label, label, label);
+    (void)Create(parent, id, pos, size, label, label, label);
 
-	//defaults
-	setBGColour( BTN_BG_R, BTN_BG_G, BTN_BG_B );
+    //defaults
+    setBGColour( BTN_BG_R, BTN_BG_G, BTN_BG_B );
     setFGColour( MAIN_TXT_R, MAIN_TXT_G, MAIN_TXT_B );
-	//setFGColour(255, 255, 255);
+    //setFGColour(255, 255, 255);
     setBDColour( MAIN_BD_R, MAIN_BD_G, MAIN_BD_B );
     setLEDColour( 200, 0, 0 );
     setAsToggle(false);
@@ -102,29 +102,29 @@ GButton::~GButton()
 
 void GButton::SetLbText(wxString label)
 {
-	mText = label;
-	Refresh();
+    mText = label;
+    Refresh();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////
 bool GButton::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const wxSize &size, const wxString& button,
-					 const wxString& hover, const wxString& click)
+                     const wxString& hover, const wxString& click)
 {
     mSize = size;
 
-	if(!wxPanel::Create(parent, id, pos, size, 0, wxT("")))
-		return false;
+    if(!wxPanel::Create(parent, id, pos, size, 0, wxT("")))
+        return false;
 
     GetClientSize(&mTotalWidth, &mTotalHeight);
     //mLedXStart = mTotalWidth - (int)((float)mTotalWidth/5);
-	//mLedXEnd = mTotalWidth - 1;
+    //mLedXEnd = mTotalWidth - 1;
     mLedXStart = mTotalWidth - 8;//(int)((float)mTotalWidth/5);
-	mLedXEnd = mTotalWidth - 2;
-	mLedYStart = 2;
-	mLedYEnd = mTotalHeight-2;
+    mLedXEnd = mTotalWidth - 2;
+    mLedYStart = 2;
+    mLedYEnd = mTotalHeight-2;
 
 
-	mButtonXCentre = mTotalWidth/2;
+    mButtonXCentre = mTotalWidth/2;
     mButtonYCentre = mTotalHeight/2;
     mToggleYCentre = mButtonYCentre;
     mToggleXCentre = mLedXStart/2;
@@ -132,14 +132,14 @@ bool GButton::Create(wxWindow* parent, wxWindowID id, const wxPoint& pos, const 
     mIsEnabled = true;
     mIsOn = false;
     mClick = false;
-	allowHover = true;
-	allowClick = true;
-	focused = false;
+    allowHover = true;
+    allowClick = true;
+    focused = false;
 
-	wxFont defaultFont( 10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial"));
+    wxFont defaultFont( 10, wxFONTFAMILY_DEFAULT, wxFONTSTYLE_NORMAL, wxFONTWEIGHT_NORMAL, false, wxT("Arial"));
     setFont( defaultFont );
 
-	return true;
+    return true;
 }
 
 void GButton::setFont(wxFont& font)
@@ -247,8 +247,8 @@ bool GButton::getStatus()
 ////////////////////////////////////////////////////
 void GButton::OnPaint(wxPaintEvent &WXUNUSED(event))
 {
-	wxBufferedPaintDC dc(this);
-	DrawBackground(dc);
+    wxBufferedPaintDC dc(this);
+    DrawBackground(dc);
 }
 
 void GButton::OnEraseBackground(wxEraseEvent& event)
@@ -259,39 +259,39 @@ void GButton::OnEraseBackground(wxEraseEvent& event)
 //////////////////////////////////////////
 void GButton::OnMouse(wxMouseEvent &event)
 {
-	if(allowHover && hover != true)
+    if(allowHover && hover != true)
     {
-		hover = true;
-		Refresh();
-	}
+        hover = true;
+        Refresh();
+    }
 
-	if(event.LeftDown())
-	{
-		if(allowClick){
-			mClick = true;
-			Refresh();
-		}
-	}
+    if(event.LeftDown())
+    {
+        if(allowClick){
+            mClick = true;
+            Refresh();
+        }
+    }
 
-	if(event.LeftUp())
-	{
-		mClick = false;
-		Refresh();
+    if(event.LeftUp())
+    {
+        mClick = false;
+        Refresh();
 
-		// Create and event
-		GButtonEvent event(wxEVT_COMMAND_GBUTTON, GetId());
-		event.SetEventObject(this);
+        // Create and event
+        GButtonEvent event(wxEVT_COMMAND_GBUTTON, GetId());
+        event.SetEventObject(this);
 
-		// Send it
-		GetEventHandler()->ProcessEvent(event);
-	}
+        // Send it
+        GetEventHandler()->ProcessEvent(event);
+    }
 
-	if(event.Leaving())
-	{
-		hover = false;
-		mClick = false;
-		Refresh();
-	}
+    if(event.Leaving())
+    {
+        hover = false;
+        mClick = false;
+        Refresh();
+    }
 
 }
 

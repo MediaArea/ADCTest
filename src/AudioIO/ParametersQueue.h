@@ -9,10 +9,10 @@
 #include <vector>
 
 struct AudioParam {
-	int paramIdx = -1;
-	double value = 0;
-	bool  write = false;
-	bool  valid = true;
+    int paramIdx = -1;
+    double value = 0;
+    bool  write = false;
+    bool  valid = true;
 };
 
 class ParametersQueue

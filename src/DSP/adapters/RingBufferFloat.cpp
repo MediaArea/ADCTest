@@ -1,4 +1,4 @@
-#include "ringbufferfloat.h"
+#include "RingBufferFloat.h"
 
 RingBufferFloat::RingBufferFloat(int n) :
     m_buffer(new float[n+1]), m_writer(0), m_reader(0), m_size(n+1)

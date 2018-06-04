@@ -18,33 +18,33 @@ class OctaveToneGenerator
         OctaveToneGenerator(double sampleRate, int channels);
         virtual ~OctaveToneGenerator();
 
-		bool generateSignal(wxXmlNode* parameters);
+        bool generateSignal(wxXmlNode* parameters);
 
-	protected:
-		void generateFrequenciesList();
-		void setParameters( wxXmlNode* paramsNode );
-		bool writeSignalFile();
+    protected:
+        void generateFrequenciesList();
+        void setParameters( wxXmlNode* paramsNode );
+        bool writeSignalFile();
 
     protected:
         wxXmlNode* mParamsNode;
         double mSampleRate;
-		int mNoChannels;
-		wxString mFolderPath;
-		wxString mFileName;
-		wxString mFilePath;
+        int mNoChannels;
+        wxString mFolderPath;
+        wxString mFileName;
+        wxString mFilePath;
 
     private:
-		int mSelectedChannelIdx;
-		double mStartFreq;
-		double mStopFreq;
-		int mStepsPerOctave;
-		double mIntegrationTime;
-		double mTransientTime;
-		double mBurstIntervalTime;
-		double mSignalLevel;
+        int mSelectedChannelIdx;
+        double mStartFreq;
+        double mStopFreq;
+        int mStepsPerOctave;
+        double mIntegrationTime;
+        double mTransientTime;
+        double mBurstIntervalTime;
+        double mSignalLevel;
 
-		std::vector<double> mFrequencies;
-		wxString mSeparator;
+        std::vector<double> mFrequencies;
+        wxString mSeparator;
 };
 
 #endif // OCTAVETONEGENERATOR_H

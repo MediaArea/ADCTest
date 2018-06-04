@@ -7,9 +7,9 @@
 #define KFFTWRAPPER_H
 
 #include <stddef.h>
-#include "Window.h"
+#include "window.h"
 #include "adapters/RingBufferFloat.h"
-#include "kissfft/tools/kiss_fftr.h"
+#include "tools/kiss_fftr.h"
 
 class KFFTWrapper
 {
@@ -39,7 +39,7 @@ class KFFTWrapper
 
         Window<float> *mFFTWindow;
         float* mWindowedBuffer;
-		float mWindowAvgLevel;
+        float mWindowAvgLevel;
 };
 
 #endif // KFFTWRAPPER_H

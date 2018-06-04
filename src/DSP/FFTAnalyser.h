@@ -9,12 +9,12 @@
 
 #include "adapters/RingBufferFloat.h"
 #include "KFFTWrapper.h"
-#include "Window.h"
+#include "window.h"
 #include "GenMetricQueue.h"
 
 struct FFTPlotData {
-	std::vector<float> MagData;
-	double sampleRate;
+    std::vector<float> MagData;
+    double sampleRate;
 };
 
 class FFTAnalyser
@@ -23,40 +23,40 @@ class FFTAnalyser
         FFTAnalyser();
         virtual ~FFTAnalyser();
 
-		void doRTA(float* InterleavedBuffer, size_t sampleRate, size_t frameLength, size_t channels, size_t selectedChannel, size_t FFTLength);
-		void initialiseFFT(size_t sampleRate, size_t frameLength, size_t channels, size_t FFTLength, WindowType wType);
-		void deInitialiseFFT();
+        void doRTA(float* InterleavedBuffer, size_t sampleRate, size_t frameLength, size_t channels, size_t selectedChannel, size_t FFTLength);
+        void initialiseFFT(size_t sampleRate, size_t frameLength, size_t channels, size_t FFTLength, WindowType wType);
+        void deInitialiseFFT();
 
-		void setRTAAvg(float value );
-		void resetRTAAvg();
+        void setRTAAvg(float value );
+        void resetRTAAvg();
         FFTPlotData GetFFTPlotData(bool* newdata);
 
 
     protected:
-		size_t mCaptureSampleRate;
-		size_t mCaptureFrameSize;
-		size_t mNoCaptureChannels;
-		size_t mSTFTLength;
-		size_t mNewSTFTLength;
-		size_t mSTFTHop;
-		size_t mSTFTBins;
-		WindowType mWType;
-		float mFStep;
+        size_t mCaptureSampleRate;
+        size_t mCaptureFrameSize;
+        size_t mNoCaptureChannels;
+        size_t mSTFTLength;
+        size_t mNewSTFTLength;
+        size_t mSTFTHop;
+        size_t mSTFTBins;
+        WindowType mWType;
+        float mFStep;
 
         float* mDeintBuffer;
-		RingBufferFloat* mRTABuf;
-		float* mRTATimeFrame;
-		KFFTWrapper *mRTA;
-		float* mRTAMag;
+        RingBufferFloat* mRTABuf;
+        float* mRTATimeFrame;
+        KFFTWrapper *mRTA;
+        float* mRTAMag;
 
-		int mSelectedChannel;
-		bool mLTAverageIsOn;
-		float mLTAverageSlope;
-		bool mResetLTA;
-		bool mFirstObservation;
+        int mSelectedChannel;
+        bool mLTAverageIsOn;
+        float mLTAverageSlope;
+        bool mResetLTA;
+        bool mFirstObservation;
 
-		FFTPlotData mVizData;
-		GenMetricQueue< FFTPlotData > mVizDataQueue;
+        FFTPlotData mVizData;
+        GenMetricQueue< FFTPlotData > mVizDataQueue;
 
     private:
 };
